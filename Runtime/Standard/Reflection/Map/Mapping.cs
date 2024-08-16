@@ -1,6 +1,7 @@
 using FTGAMEStudio.InitialFramework.ExtensionMethods;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace FTGAMEStudio.InitialFramework.Reflection
@@ -22,15 +23,16 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
             return null;
         }
+        public static Type GetMapTargetType(object container, bool inherit = false) => GetMapTargetType(container.GetType(), inherit);
 
         /// <summary>
-        /// 将容器按 <see cref="MapContainerAttribute.TargetType"/> 的 UniqueName 分类。
+        /// 将容器类型按 <see cref="MapContainerAttribute.TargetType"/> 的 UniqueName 分类。
         /// </summary>
-        public static Dictionary<string, Type> ClassifyMapTargetType(bool inherit = false, params Type[] containers)
+        public static Dictionary<string, Type> ClassifyMapTargetType(bool inherit = false, params Type[] containerTypes)
         {
             Dictionary<string, Type> classify = new();
 
-            foreach (Type container in containers)
+            foreach (Type container in containerTypes)
             {
                 string uniqueName = GetMapTargetType(container, inherit) is Type targetType ?
                      targetType.GetUniqueName()

@@ -53,12 +53,14 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
             foreach (VariableInfo containerVariable in containerType.GetVariables(BindingAttr))
             {
+                if (!Mapping.IsMappable(containerVariable)) continue;
+
                 VariableInfo instanceVariable =
                     instanceType.GetVariable(containerVariable.Name, containerVariable.ValueType, BindingAttr)
                     ??
                     throw new MissingFieldException($"The Type {containerType} member '{containerVariable.Name}' could not be found in the Type {instanceType}.");
 
-                if (!Mapping.IsMappable(instanceVariable)) continue;
+                if (!Mapping.IsMappable(instanceType)) continue;
 
                 Map(containerVariable, instanceVariable);
             }

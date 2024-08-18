@@ -11,7 +11,7 @@ Initial Framework 是为 Unity 开发的用于游戏和程序开发的抽象初�
 
 [Initial Feature - EventableObject](https://github.com/SIRT43/Initial-Feature-EventableObject)
 
-[Initial Feature - Input]([GitHub - SIRT43/Initial-Feature-Input: 为 Unity 开发的基于 UGUI 和 Initial Framework 的 Input 系统。](https://github.com/SIRT43/Initial-Feature-Input))
+[Initial Feature - Input](https://github.com/SIRT43/Initial-Feature-Input)
 
 [Initial Feature - Json](https://github.com/SIRT43/Initial-Feature-Json)
 

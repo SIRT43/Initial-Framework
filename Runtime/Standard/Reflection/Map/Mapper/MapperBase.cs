@@ -9,23 +9,24 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     /// </summary>
     public interface IMapper
     {
-        public object Container { get; }
-        public object Instance { get; }
-
         /// <summary>
         /// 应该以怎样的特征查询成员。
         /// </summary>
         public BindingFlags BindingAttr { get; set; }
 
-        /// <summary>
-        /// 获取结果。(如果 instance 是值类型)
-        /// </summary>
-        public object Result { get; }
+        public bool IsMappable(MemberInfo memberInfo);
+        public bool IsMappable(VariableInfo variableInfo);
 
         /// <summary>
-        /// 遍历并验证容器成员。
+        /// 验证容器的目标类型是否是指定类型。
         /// </summary>
-        public void Map(object a, object b);
+        public bool VerifyMapTarget(Type container, Type instance);
+        /// <summary>  
+        /// 验证容器是否可以与指定类型进行映射。
+        /// </summary>
+        public bool VerifyMapping(Type container, Type instance);
+
+        public bool Map<T>(object container, ref T instance);
     }
 
     /// <summary>  
@@ -33,44 +34,43 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     /// </summary>
     public abstract class MapperBase : IMapper
     {
-        public virtual object Container { get; protected set; }
-        public virtual object Instance { get; protected set; }
-
         public virtual BindingFlags BindingAttr { get; set; }
-        public virtual object Result => Instance;
 
-        protected MapperBase(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) => BindingAttr = bindingAttr;
+        public virtual bool IsMappable(MemberInfo memberInfo) => Mapping.IsMappable(memberInfo);
+        public virtual bool IsMappable(VariableInfo variableInfo) => Mapping.IsMappable(variableInfo);
 
-        public virtual void Map(object container, object instance)
+        public virtual bool VerifyMapTarget(Type container, Type instance) => Mapping.VerifyMapTarget(container, instance);
+        public virtual bool VerifyMapping(Type container, Type instance) => Mapping.VerifyMapping(container, instance);
+
+
+        public virtual bool Map<T>(object container, ref T instance)
         {
-            Container = container;
-            Instance = instance;
-
             Type containerType = container.GetType();
             Type instanceType = instance.GetType();
 
-            if (!Mapping.VerifyMapping(containerType, instanceType)) return;
+            if (!VerifyMapping(containerType, instanceType)) return false;
 
             foreach (VariableInfo containerVariable in containerType.GetVariables(BindingAttr))
             {
-                if (!Mapping.IsMappable(containerVariable)) continue;
+                if (!IsMappable(containerVariable)) continue;
 
                 VariableInfo instanceVariable =
                     instanceType.GetVariable(containerVariable.Name, containerVariable.ValueType, BindingAttr)
                     ??
                     throw new MissingFieldException($"The Type {containerType} member '{containerVariable.Name}' could not be found in the Type {instanceType}.");
 
-                if (!Mapping.IsMappable(instanceType)) continue;
+                if (!IsMappable(instanceType)) continue;
 
-                Map(containerVariable, instanceVariable);
+                TryMap(container, ref instance, containerVariable, instanceVariable);
             }
+
+            return true;
         }
 
-        /// <summary>
-        /// 当映射器正在遍历容器成员时调用。
-        /// 
-        /// <para>本方法用于自定义映射行为。</para>
-        /// </summary>
-        protected abstract void Map(VariableInfo containerVariable, VariableInfo instanceVariable);
+        protected abstract void TryMap<T>(object container, ref T instance, VariableInfo containerVariable, VariableInfo instanceVariable);
+
+
+
+        protected MapperBase(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) => BindingAttr = bindingAttr;
     }
 }

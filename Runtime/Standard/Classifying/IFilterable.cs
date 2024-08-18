@@ -5,10 +5,10 @@ namespace FTGAMEStudio.InitialFramework
     /// 
     /// <para>¡Ì«Î≤Œ‘ƒ <seealso cref="IClassifiable{TKey, TValue}.IsCanonical(TValue, out TKey)"/></para>
     /// </summary>  
-    public delegate bool FiltrationRule<TKey, TValue>(TValue value, out TKey key);
+    public delegate bool FilterRule<TKey, TValue>(TValue value, out TKey key);
 
     public interface IFilterable<TKey, TValue>
     {
-        public FiltrationRule<TKey, TValue> Filter { get; }
+        public FilterRule<TKey, TValue> FilterRule { get; }
     }
 }

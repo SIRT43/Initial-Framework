@@ -23,13 +23,13 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
     }
 
     /// <summary>
-    /// 弱引用字典，派生自 <see cref="SecurityDictionary{TKey, TValue}"/>。
-    /// <br>其中 <see cref="TValue"/> 是 <see cref="WeakReference{TValue}"/></br> 并且 <see cref="TValue"/> 应该是引用类型。
+    /// 弱引用字典。
+    /// <br>当访问发生，字典会尝试清理无效的键值对。</br>
     /// 
-    /// <para>弱引用字典不会在无操作时自动清理无效键值对 (指 <see cref="WeakReference{T}.TryGetTarget(out T)"/> 为 null 或键值为 null。)，但当访问发生时如果键值对无效则弱引用字典会尝试移除它们。
-    /// <br>请不要尝试序列化本字典或派生自本字典的对象，这可能引入不必要的错误。</br></para>
-    /// 
-    /// <para>另外，弱引用字典的 Count 是不安全的，如果您需要使用，请先 <see cref="WeakReferenceDictionary{TKey, TValue}.Refresh"/></para>
+    /// <para>
+    /// 另外，弱引用字典的 Count 是不安全的。
+    /// <br>如果您需要使用，请先 <see cref="WeakReferenceDictionary{TKey, TValue}.Refresh"/></br>
+    /// </para>
     /// </summary>
     public class WeakReferenceDictionary<TKey, TValue> :
         SecurityDictionary<TKey, WeakReference<TValue>>,
@@ -53,24 +53,18 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
             }
         }
 
-        /// <summary>
-        /// 添加键值对，但自动创建弱引用。
-        /// </summary>
         public virtual void Add(TKey key, TValue value) =>
             AddSecurity(key, new WeakReference<TValue>(value));
 
 
         public bool SetTarget(TKey key, TValue value)
         {
-            if (!GetValueSecurity(key, out WeakReference<TValue> weakReference)) return false;
+            if (!GetSecurity(key, out WeakReference<TValue> weakReference)) return false;
 
             weakReference.SetTarget(value);
             return true;
         }
 
-        /// <summary>
-        /// 是否包含指定的 value，对比 <see cref="TValue"/> 的引用而不是 <see cref="WeakReference{T}"/> 的引用。
-        /// </summary>
         public bool ContainsValue(TValue value)
         {
             foreach (TKey key in Keys)
@@ -84,8 +78,10 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
         /// <summary>
         /// 直接获取弱引用目标。
         /// 
-        /// <para>本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。
-        /// <br>详见 <see cref="Examine(TKey)"/></br></para>
+        /// <para>
+        /// 本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。
+        /// <br>另请参阅 <see cref="Examine(TKey)"/></br>
+        /// </para>
         /// </summary>
         public TValue GetTarget(TKey key)
         {
@@ -97,8 +93,10 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
         /// <summary>
         /// 尝试获取弱引用目标，返回 true 时则获取成功，返回 false 时则获取失败。
         /// 
-        /// <para>本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。
-        /// <br>详见 <see cref="Examine(TKey)"/></br></para>
+        /// <para>
+        /// 本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。
+        /// <br>另请参阅 <see cref="Examine(TKey)"/></br>
+        /// </para>
         /// </summary>
         public bool TryGetTarget(TKey key, out TValue target)
         {
@@ -139,8 +137,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
         /// <summary>
         /// 刷新键值，移除无效项目。
         /// 
-        /// <para>本方法基于 Examine 方法。
-        /// <br>详见 <see cref="Examine(TKey)"/></br></para>
+        /// <para>本方法基于 <see cref="Examine(TKey)"/> 方法。</para>
         /// </summary>
         public void Refresh()
         {

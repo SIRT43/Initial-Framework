@@ -13,16 +13,16 @@ namespace FTGAMEStudio.InitialFramework.Classifying
     /// <typeparam name="TValue">要分类的值的类型。</typeparam>
     public class FilterableClassifier<TKey, TValue> : Classifier<TKey, TValue>, IFilterable<TKey, TValue>
     {
-        public virtual FiltrationRule<TKey, TValue> Filter { get; protected set; }
+        public virtual FilterRule<TKey, TValue> FilterRule { get; protected set; }
 
         /// <summary>
         /// 您必须提供一个过滤规则。
         /// </summary>
-        public FilterableClassifier(FiltrationRule<TKey, TValue> filter) => Filter = filter;
+        public FilterableClassifier(FilterRule<TKey, TValue> filter) => FilterRule = filter;
 
         public override bool IsCanonical(TValue value, out TKey key)
         {
-            bool result = Filter.Invoke(value, out TKey k);
+            bool result = FilterRule.Invoke(value, out TKey k);
 
             key = k;
             return result;

@@ -11,24 +11,37 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         public bool Has(TKey key);
     }
 
+    /// <summary>
+    /// 查询机。
+    /// <br>它是只读且不可知的字典，您仅能查询它是否拥有某项。</br>
+    /// </summary>
     public class InquiryMachine<TKey, TValue> : IInquiryable<TKey, TValue>
     {
-        private readonly Dictionary<TKey, TValue> pairs = new();
-        protected IReadOnlyDictionary<TKey, TValue> Pairs => pairs;
+        private readonly Dictionary<TKey, TValue> data;
+        protected IReadOnlyDictionary<TKey, TValue> Data => data;
 
-        public InquiryMachine(Dictionary<TKey, TValue> pairs) => this.pairs = pairs;
+        /// <summary>
+        /// 在此之前，您必须提供数据。
+        /// <br>在查询机创建后，您将不能修改它。</br>
+        /// </summary>
+        public InquiryMachine(Dictionary<TKey, TValue> data) => this.data = data;
+        /// <summary>
+        /// 在此之前，您必须提供数据。
+        /// <br>在查询机创建后，您将不能修改它。</br>
+        /// </summary>
+        public InquiryMachine(IDictionary<TKey, TValue> data) : this(new(data)) { }
 
         public TValue Inquiry(TKey key)
         {
             if (!Has(key)) return default;
-            return pairs[key];
+            return data[key];
         }
 
         public bool TryInquiry(TKey key, out TValue value)
         {
             if (Has(key))
             {
-                value = pairs[key];
+                value = data[key];
                 return true;
             }
 
@@ -36,6 +49,6 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
             return false;
         }
 
-        public bool Has(TKey key) => pairs.ContainsKey(key);
+        public bool Has(TKey key) => data.ContainsKey(key);
     }
 }

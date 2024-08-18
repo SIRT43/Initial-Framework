@@ -8,7 +8,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         public bool AddSecurity(TKey key, TValue value);
         public bool SetSecurity(TKey key, TValue value);
 
-        public bool GetValueSecurity(TKey key, out TValue value);
+        public bool GetSecurity(TKey key, out TValue value);
 
         public bool OverrideValue(TKey key, TValue value);
 
@@ -59,7 +59,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// 本方法与 <see cref="Dictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/> 不同，
         /// <br>当键存在但关联的值为 null 时，此方法将返回 false，标准 <see cref="Dictionary{TKey, TValue}.TryGetValue"/> 方法后者在值为 null 时仍返回 true。</br>
         /// </summary>
-        public virtual bool GetValueSecurity(TKey key, out TValue value)
+        public virtual bool GetSecurity(TKey key, out TValue value)
         {
             if (Examine(key))
             {

@@ -63,7 +63,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 
         public virtual bool TryGetValue(Guid guid, out TValue value)
         {
-            bool result = registry.GetValueSecurity(guid, out TValue val);
+            bool result = registry.GetSecurity(guid, out TValue val);
             value = val;
 
             return result;

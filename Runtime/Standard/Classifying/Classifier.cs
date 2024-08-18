@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace FTGAMEStudio.InitialFramework.Classifying
 {
-    /// <summary>  
-    /// 可分类，用于将一组值分类到基于键的列表中。  
-    /// </summary>  
-    /// <typeparam name="TKey">用于分类的键的类型。</typeparam>  
-    /// <typeparam name="TValue">要分类的值的类型。</typeparam>  
+    /// <summary>
+    /// 可分类，用于将一组值分类到基于键的列表中。
+    /// </summary>
+    /// <typeparam name="TKey">用于分类的键的类型。</typeparam>
+    /// <typeparam name="TValue">要分类的值的类型。</typeparam>
     public interface IClassifiable<TKey, TValue>
     {
         /// <summary>  

@@ -10,8 +10,8 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     {
         public VariableMapper(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(bindingAttr) { }
 
-        protected override void Map(VariableInfo containerVariable, VariableInfo instanceVariable) =>
-            instanceVariable.SetValue(Instance, Container, containerVariable);
+        protected override void TryMap<T>(object container, ref T instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
+            instanceVariable.SetValue(instance, container, containerVariable);
     }
 
     /// <summary>  
@@ -21,7 +21,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     {
         public ReverseVariableMapper(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(bindingAttr) { }
 
-        protected override void Map(VariableInfo containerVariable, VariableInfo instanceVariable) =>
-            containerVariable.SetValue(Container, Instance, instanceVariable);
+        protected override void TryMap<T>(object container, ref T instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
+            containerVariable.SetValue(container, instance, instanceVariable);
     }
 }

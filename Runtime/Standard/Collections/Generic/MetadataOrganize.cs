@@ -43,8 +43,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 
         public virtual bool RegMetadata(Guid guid)
         {
-            if (HasRegMetadata(guid)) return false;
             if (!HasReg(guid)) return false;
+            if (HasRegMetadata(guid)) return false;
 
             metadata.Add(guid);
             OnMetadataCountChanged?.Invoke(MetadataCount, IsMetadataEmpty);

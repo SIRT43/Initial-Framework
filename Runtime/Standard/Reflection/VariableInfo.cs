@@ -13,8 +13,12 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     public interface IVariableInfo
     {
         public VariableType VariableType { get; }
+        public Type ValueType { get; }
 
         public MemberInfo GetOriginal();
+
+        public object GetValue(object obj);
+        public void SetValue(object obj, object value);
     }
 
     /// <summary>
@@ -31,6 +35,37 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
         protected readonly VariableType variableType;
         public VariableType VariableType => variableType;
+
+        public Type ValueType =>
+            variableType == VariableType.Field ? field.FieldType : property.PropertyType;
+
+
+        public MemberInfo GetOriginal() =>
+            variableType == VariableType.Field ? field : property;
+
+
+        public object GetValue(object obj) =>
+            variableType == VariableType.Field ? field.GetValue(obj) : property.GetValue(obj);
+
+        public void SetValue(object obj, object value)
+        {
+            if (variableType == VariableType.Field) field.SetValue(obj, value);
+            else property.SetValue(obj, value);
+        }
+
+
+        public VariableInfo(FieldInfo fieldInfo)
+        {
+            field = fieldInfo;
+            variableType = VariableType.Field;
+        }
+
+        public VariableInfo(PropertyInfo propertyInfo)
+        {
+            property = propertyInfo;
+            variableType = VariableType.Property;
+        }
+
 
         public override Type DeclaringType =>
             variableType == VariableType.Field ? field.DeclaringType : property.DeclaringType;
@@ -50,23 +85,8 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         public override Module Module =>
             variableType == VariableType.Field ? field.Module : property.Module;
 
-        public Type ValueType =>
-            variableType == VariableType.Field ? field.FieldType : property.PropertyType;
-
         public override IEnumerable<CustomAttributeData> CustomAttributes =>
             variableType == VariableType.Field ? field.CustomAttributes : property.CustomAttributes;
-
-        public VariableInfo(FieldInfo fieldInfo)
-        {
-            field = fieldInfo;
-            variableType = VariableType.Field;
-        }
-
-        public VariableInfo(PropertyInfo propertyInfo)
-        {
-            property = propertyInfo;
-            variableType = VariableType.Property;
-        }
 
         public override object[] GetCustomAttributes(bool inherit) =>
             variableType == VariableType.Field ? field.GetCustomAttributes(inherit) : property.GetCustomAttributes(inherit);
@@ -82,17 +102,5 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
         public override bool HasSameMetadataDefinitionAs(MemberInfo other) =>
             variableType == VariableType.Field ? field.HasSameMetadataDefinitionAs(other) : property.HasSameMetadataDefinitionAs(other);
-
-        public object GetValue(object obj) =>
-            variableType == VariableType.Field ? field.GetValue(obj) : property.GetValue(obj);
-
-        public void SetValue(object obj, object value)
-        {
-            if (variableType == VariableType.Field) field.SetValue(obj, value);
-            else property.SetValue(obj, value);
-        }
-
-        public MemberInfo GetOriginal() =>
-            variableType == VariableType.Field ? field : property;
     }
 }

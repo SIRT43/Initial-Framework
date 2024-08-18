@@ -27,9 +27,11 @@ namespace FTGAMEStudio.InitialFramework.Replicator
         public Vector3Random randomAngularVelocity;
 
 
-        public override Rigidbody SingleWithComponent()
+        public override GameObject SingleObject()
         {
-            Rigidbody rigidbody = base.SingleWithComponent();
+            GameObject gameObject = base.SingleObject();
+
+            if (!gameObject.TryGetComponent(out Rigidbody rigidbody)) return gameObject;
 
             if (applyInitialForce)
             {
@@ -59,7 +61,7 @@ namespace FTGAMEStudio.InitialFramework.Replicator
                 _ => fixedAngularVelocity
             };
 
-            return rigidbody;
+            return gameObject;
         }
     }
 }

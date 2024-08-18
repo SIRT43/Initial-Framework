@@ -42,7 +42,7 @@ namespace FTGAMEStudio.InitialFramework.ExtensionMethods
         public static VariableInfo GetVariable(this Type type, string name, BindingFlags bindingAttr = BindingFlags.Default)
         {
             if (type.GetField(name, bindingAttr) is FieldInfo fieldInfo) return fieldInfo;
-            if (type.GetProperty(name, bindingAttr) is PropertyInfo propertyInfo) return propertyInfo;
+            else if (type.GetProperty(name, bindingAttr) is PropertyInfo propertyInfo) return propertyInfo;
 
             return null;
         }

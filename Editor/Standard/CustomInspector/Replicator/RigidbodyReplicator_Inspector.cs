@@ -73,6 +73,8 @@ namespace FTGAMEStudio.InitialFramework.CustomInspector
                         break;
                 }
             }
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

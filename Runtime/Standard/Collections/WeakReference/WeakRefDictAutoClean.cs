@@ -6,18 +6,21 @@ using System.Timers;
 namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
 {
     /// <summary>
-    /// 弱引用自动清理字典，派生自 <see cref="WeakReferenceDictionary{TKey, TValue}"/>。
+    /// 弱引用字典。
+    /// <br>当访问发生，字典会尝试清理无效的键值对。</br>
+    /// <br>使用 <see cref="Timer"/> 自动清理。</br>
     /// 
-    /// <para>弱引用自动清理字典会在无操作时自动清理无效键值对 (指 <see cref="WeakReference.Target"/> 为 null 或键值为 null。)，且访问发生时如果键值对无效则弱引用字典会尝试移除它们。
-    /// <br>请不要尝试序列化本字典或派生自本字典的对象，这可能引入不必要的错误。</br></para>
+    /// <para>
+    /// 另外，弱引用字典的 Count 是不安全的。
+    /// <br>如果您需要使用，请先 <see cref="WeakReferenceDictionary{TKey, TValue}.Refresh"/></br>
+    /// </para>
     /// </summary>
     public class WeakRefDictAutoClean<TKey, TValue> : WeakReferenceDictionary<TKey, TValue>, IDisposable where TValue : class
     {
         protected Timer cleaner;
 
         /// <summary>
-        /// 本字典使用 <see cref="Timer"/> 进行定时清理。
-        /// <br>有关 <see cref="Timer"/>，详见 https://learn.microsoft.com/zh-cn/dotnet/api/system.timers.timer?view=netstandard-2.1</br>
+        /// 使用 <see cref="Timer"/> 自动清理。
         /// </summary>
         public WeakRefDictAutoClean(double interval) : base()
         {

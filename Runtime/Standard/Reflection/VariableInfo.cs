@@ -1,106 +1,63 @@
+using FTGAMEStudio.InitialFramework.ExtensionMethods;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace FTGAMEStudio.InitialFramework.Reflection
 {
-    public enum VariableType
-    {
-        Field,
-        Property
-    }
-
-    public interface IVariableInfo
-    {
-        public VariableType VariableType { get; }
-        public Type ValueType { get; }
-
-        public MemberInfo GetOriginal();
-
-        public object GetValue(object obj);
-        public void SetValue(object obj, object value);
-    }
-
-    /// <summary>
-    /// 变量信息。
-    /// <br>它可以表达字段，也可以表达属性。</br>
-    /// </summary>
-    public class VariableInfo : MemberInfo, IVariableInfo
+    public class VariableInfo : VariableInfoBase
     {
         public static implicit operator VariableInfo(FieldInfo fieldInfo) => new(fieldInfo);
         public static implicit operator VariableInfo(PropertyInfo propertyInfo) => new(propertyInfo);
 
-        protected readonly FieldInfo field;
-        protected readonly PropertyInfo property;
-
-        protected readonly VariableType variableType;
-        public VariableType VariableType => variableType;
-
-        public Type ValueType =>
-            variableType == VariableType.Field ? field.FieldType : property.PropertyType;
 
 
-        public MemberInfo GetOriginal() =>
-            variableType == VariableType.Field ? field : property;
+        protected MemberInfo target;
+        protected override MemberInfo Target => target;
+
+        private VariableType variableType;
+        public override VariableType VariableType { get => variableType; protected set => variableType = value; }
 
 
-        public object GetValue(object obj) =>
-            variableType == VariableType.Field ? field.GetValue(obj) : property.GetValue(obj);
 
-        public void SetValue(object obj, object value)
-        {
-            if (variableType == VariableType.Field) field.SetValue(obj, value);
-            else property.SetValue(obj, value);
-        }
-
-
+        /// <summary>
+        /// 在此之前，您必须提供字段或属性。
+        /// </summary>
         public VariableInfo(FieldInfo fieldInfo)
         {
-            field = fieldInfo;
+            target = fieldInfo;
             variableType = VariableType.Field;
         }
-
+        /// <summary>
+        /// 在此之前，您必须提供字段或属性。
+        /// </summary>
         public VariableInfo(PropertyInfo propertyInfo)
         {
-            property = propertyInfo;
+            target = propertyInfo;
             variableType = VariableType.Property;
         }
 
+        protected VariableInfo() { }
+    }
 
-        public override Type DeclaringType =>
-            variableType == VariableType.Field ? field.DeclaringType : property.DeclaringType;
+    public class VariableInfo<TMemberType> : VariableInfo, IVariableInfo<TMemberType> where TMemberType : MemberInfo
+    {
+        public static implicit operator VariableInfo<TMemberType>(TMemberType memberType) => new(memberType);
 
-        public override MemberTypes MemberType =>
-            variableType == VariableType.Field ? field.MemberType : property.MemberType;
 
-        public override string Name =>
-            variableType == VariableType.Field ? field.Name : property.Name;
 
-        public override Type ReflectedType =>
-            variableType == VariableType.Field ? field.ReflectedType : property.ReflectedType;
+        private readonly TMemberType original;
+        public new TMemberType Original => original;
 
-        public override int MetadataToken =>
-            variableType == VariableType.Field ? field.MetadataToken : property.MetadataToken;
+        /// <summary>
+        /// 在此之前，您必须提供信息。
+        /// </summary>
+        public VariableInfo(TMemberType memberType)
+        {
+            target = memberType;
 
-        public override Module Module =>
-            variableType == VariableType.Field ? field.Module : property.Module;
-
-        public override IEnumerable<CustomAttributeData> CustomAttributes =>
-            variableType == VariableType.Field ? field.CustomAttributes : property.CustomAttributes;
-
-        public override object[] GetCustomAttributes(bool inherit) =>
-            variableType == VariableType.Field ? field.GetCustomAttributes(inherit) : property.GetCustomAttributes(inherit);
-
-        public override object[] GetCustomAttributes(Type attributeType, bool inherit) =>
-            variableType == VariableType.Field ? field.GetCustomAttributes(attributeType, inherit) : property.GetCustomAttributes(attributeType, inherit);
-
-        public override bool IsDefined(Type attributeType, bool inherit) =>
-            variableType == VariableType.Field ? field.IsDefined(attributeType, inherit) : property.IsDefined(attributeType, inherit);
-
-        public override IList<CustomAttributeData> GetCustomAttributesData() =>
-            variableType == VariableType.Field ? field.GetCustomAttributesData() : property.GetCustomAttributesData();
-
-        public override bool HasSameMetadataDefinitionAs(MemberInfo other) =>
-            variableType == VariableType.Field ? field.HasSameMetadataDefinitionAs(other) : property.HasSameMetadataDefinitionAs(other);
+            if (memberType is FieldInfo) VariableType = VariableType.Field;
+            else if (memberType is PropertyInfo) VariableType = VariableType.Property;
+            else throw new ArgumentException($"{memberType.GetType().GetUniqueName()} is not the expected type.", nameof(memberType));
+        }
     }
 }

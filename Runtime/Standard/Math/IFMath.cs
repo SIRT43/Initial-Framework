@@ -88,5 +88,10 @@ namespace FTGAMEStudio.InitialFramework.Math
 
         public static bool InRange(Vector3 v, Vector3 min, Vector3 max) =>
              InRange(v.x, min.x, max.x) && InRange(v.y, min.y, max.y) && InRange(v.z, min.z, max.z);
+
+
+
+        public static bool IsNegative(float v) => v < 0;
+        public static bool IsNegative(int v) => v < 0;
     }
 }

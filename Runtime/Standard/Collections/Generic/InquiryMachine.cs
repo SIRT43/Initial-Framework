@@ -13,7 +13,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 
     /// <summary>
     /// 查询机。
-    /// <br>它是只读且不可知的字典，您仅能查询它是否拥有某项。</br>
+    /// <br>它是只读且不可知的字典且在创建时就确定了键值，您仅能查询它是否拥有某项。</br>
     /// </summary>
     public class InquiryMachine<TKey, TValue> : IInquiryable<TKey, TValue>
     {

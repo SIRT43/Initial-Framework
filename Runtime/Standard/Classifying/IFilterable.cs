@@ -9,6 +9,6 @@ namespace FTGAMEStudio.InitialFramework
 
     public interface IFilterable<TKey, TValue>
     {
-        public FilterRule<TKey, TValue> FilterRule { get; }
+        FilterRule<TKey, TValue> FilterRule { get; }
     }
 }

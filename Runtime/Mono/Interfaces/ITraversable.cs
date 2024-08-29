@@ -5,6 +5,6 @@ namespace FTGAMEStudio.InitialFramework
         /// <summary>
         /// 遍历此对象。
         /// </summary>
-        public void Traverse();
+        void Traverse();
     }
 }

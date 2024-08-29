@@ -29,7 +29,7 @@ namespace FTGAMEStudio.InitialFramework.Math
         public abstract T Clamp(T v);
         public abstract bool InRange(T v);
     }
-    
+
 
     /// <summary>
     /// 创建一个 <see cref="float"/> 范围。

@@ -14,14 +14,14 @@ namespace FTGAMEStudio.InitialFramework.Classifying
         /// 
         /// <para>另请参阅 <seealso cref="IsCanonical(TValue, out TKey)"/></para>
         /// </summary>  
-        public Dictionary<TKey, List<TValue>> Classify(TValue[] values);
+        Dictionary<TKey, List<TValue>> Classify(TValue[] values);
 
         /// <summary>  
         /// 确定给定的值是否是 "规范的"，并为其生成一个键。  
         /// </summary>  
         /// <param name="key">如果值是规范的，则生成并输出此键。</param>  
         /// <returns>如果值是规范的，则为true；否则为false。</returns>
-        public bool IsCanonical(TValue value, out TKey key);
+        bool IsCanonical(TValue value, out TKey key);
     }
 
     /// <summary>  

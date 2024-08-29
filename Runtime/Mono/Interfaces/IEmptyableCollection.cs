@@ -5,7 +5,7 @@ namespace FTGAMEStudio.InitialFramework
     /// </summary>
     public interface IEmptyableCollection
     {
-        public int Count { get; }
-        public bool IsEmpty { get; }
+        int Count { get; }
+        bool IsEmpty { get; }
     }
 }

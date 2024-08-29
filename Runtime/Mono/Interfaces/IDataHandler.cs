@@ -2,12 +2,12 @@ namespace FTGAMEStudio.InitialFramework
 {
     public interface IResetable
     {
-        public void Reset();
+        void Reset();
     }
 
     public interface IClearable
     {
-        public void Clear();
+        void Clear();
     }
 
     public interface IDataHandler : IResetable, IClearable { }

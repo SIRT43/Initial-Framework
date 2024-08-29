@@ -4,7 +4,7 @@ namespace FTGAMEStudio.InitialFramework
 {
     public interface IDestructionHandler
     {
-        public void OnDestructionArea();
+        void OnDestructionArea();
     }
 
     [AddComponentMenu("Initial Framework/Destruction Area"), RequireComponent(typeof(Collider)), ExecuteInEditMode]

@@ -15,11 +15,6 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         public void SetValue(object obj, object value);
     }
 
-    public interface IVariableInfo<TMemberType> : IVariableInfo where TMemberType : MemberInfo
-    {
-        public new TMemberType Original { get; }
-    }
-
     public abstract class VariableInfoBase : MemberInfo, IVariableInfo
     {
         protected abstract MemberInfo Target { get; }

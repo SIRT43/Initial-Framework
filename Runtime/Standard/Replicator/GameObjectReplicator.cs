@@ -20,8 +20,13 @@ namespace FTGAMEStudio.InitialFramework.Replicator
         protected bool overrideName = false;
         protected string newObjectName;
 
+
+        private int replicateCount = 0;
+
+
         public virtual GameObject Original { get => original; set => original = value == null ? original : value; }
         public virtual Transform Parent { get => parent; set => parent = value; }
+
 
         public virtual bool WorldPositionStays
         {
@@ -43,11 +48,13 @@ namespace FTGAMEStudio.InitialFramework.Replicator
             }
         }
 
+
         public virtual bool OverrideName { get => overrideName; set => overrideName = value; }
         public virtual string NewObjectName { get => newObjectName; set => newObjectName = value; }
 
-        private int replicateCount = 0;
+
         public virtual int ReplicateCount { get => replicateCount; }
+
 
         public virtual GameObject SingleObject()
         {

@@ -15,15 +15,21 @@ namespace FTGAMEStudio.InitialFramework
         protected virtual void Awake()
         {
             colliders = GetComponents<Collider>();
-            foreach (Collider collider in colliders) collider.isTrigger = true;
+
+            foreach (Collider collider in colliders)
+            {
+                if (!collider.isTrigger)
+                    Debug.LogWarning($"Collider '{collider.name}' is not set as a trigger. This may prevent OnTriggerEnter from being called as expected.", collider);
+            }
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
-            GameObject destroyTarget = other.attachedRigidbody == null ? other.gameObject : other.attachedRigidbody.gameObject;
-            MonoBehaviour[] component = destroyTarget.GetComponents<MonoBehaviour>();
+            GameObject destroyTarget = other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
 
-            foreach (MonoBehaviour behaviour in component) if (behaviour is IDestructionHandler handler) handler.OnDestructionArea();
+            MonoBehaviour[] behaviours = destroyTarget.GetComponents<MonoBehaviour>();
+
+            foreach (MonoBehaviour behaviour in behaviours) if (behaviour is IDestructionHandler handler) handler.OnDestructionArea();
             Destroy(destroyTarget);
         }
     }

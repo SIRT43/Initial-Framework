@@ -1,14 +1,16 @@
-namespace FTGAMEStudio.InitialFramework
+namespace FTGAMEStudio.InitialFramework.Classifying
 {
     /// <summary>  
     /// 过滤规则。
     /// 
-    /// <para>另请参阅 <seealso cref="IClassifiable{TKey, TValue}.IsCanonical(TValue, out TKey)"/></para>
+    /// <para>另请参阅 <seealso cref="IFilterable{TKey, TValue}"/>，<seealso cref="FilterableClassifier{TKey, TValue}"/>。</para>
     /// </summary>  
-    public delegate bool FilterRule<TKey, TValue>(TValue value, out TKey key);
+    public delegate bool ValueFilter<in TValue>(TValue value);
+    public delegate TKey KeyGenerator<out TKey, in TValue>(TValue value);
 
     public interface IFilterable<TKey, TValue>
     {
-        FilterRule<TKey, TValue> FilterRule { get; }
+        event ValueFilter<TValue> ValueFilter;
+        event KeyGenerator<TKey, TValue> KeyGenerator;
     }
 }

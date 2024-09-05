@@ -1,3 +1,4 @@
+using FTGAMEStudio.InitialFramework.Traverse;
 using System.Collections.Generic;
 
 namespace FTGAMEStudio.InitialFramework.Classifying
@@ -7,21 +8,17 @@ namespace FTGAMEStudio.InitialFramework.Classifying
     /// </summary>
     /// <typeparam name="TKey">用于分类的键的类型。</typeparam>
     /// <typeparam name="TValue">要分类的值的类型。</typeparam>
-    public interface IClassifiable<TKey, TValue>
+    public interface IClassifiable<TKey, TValue> : IFlowTraversable<TValue, TValue[]>
     {
-        /// <summary>  
+        /// <summary>
         /// 将一组值分类到基于键的列表中。
-        /// 
-        /// <para>另请参阅 <seealso cref="IsCanonical(TValue, out TKey)"/></para>
-        /// </summary>  
+        /// </summary>
         Dictionary<TKey, List<TValue>> Classify(TValue[] values);
 
         /// <summary>  
-        /// 确定给定的值是否是 "规范的"，并为其生成一个键。  
+        /// 为指定值生成一个键。  
         /// </summary>  
-        /// <param name="key">如果值是规范的，则生成并输出此键。</param>  
-        /// <returns>如果值是规范的，则为true；否则为false。</returns>
-        bool IsCanonical(TValue value, out TKey key);
+        TKey GenerateKey(TValue value);
     }
 
     /// <summary>  
@@ -29,23 +26,34 @@ namespace FTGAMEStudio.InitialFramework.Classifying
     /// </summary>  
     /// <typeparam name="TKey">用于分类的键的类型。</typeparam>  
     /// <typeparam name="TValue">要分类的值的类型。</typeparam>
-    public abstract class Classifier<TKey, TValue> : IClassifiable<TKey, TValue>
+    public abstract class Classifier<TKey, TValue> : Traverser<TValue, TValue[]>, IClassifiable<TKey, TValue>
     {
+        private Dictionary<TKey, List<TValue>> classify;
+
+
+        protected Classifier() : base(FlowControl.Continue) { }
+
+
         public virtual Dictionary<TKey, List<TValue>> Classify(TValue[] values)
         {
-            Dictionary<TKey, List<TValue>> classify = new();
+            Dictionary<TKey, List<TValue>> classify = this.classify;
 
-            foreach (TValue value in values)
-            {
-                if (!IsCanonical(value, out TKey key)) continue;
-
-                if (!classify.ContainsKey(key)) classify.Add(key, new() { value });
-                else classify[key].Add(value);
-            }
+            Traverse(values);
 
             return classify;
         }
 
-        public abstract bool IsCanonical(TValue value, out TKey key);
+        protected override void AfterTraverse(TValue[] values) => classify = new();
+        protected override void BeforeTraverse(TValue[] values) => classify = null;
+
+        protected override void OnTraverse(TValue value)
+        {
+            TKey key = GenerateKey(value);
+
+            if (!classify.ContainsKey(key)) classify.Add(key, new() { value });
+            else classify[key].Add(value);
+        }
+
+        public abstract TKey GenerateKey(TValue value);
     }
 }

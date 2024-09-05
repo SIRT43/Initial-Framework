@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Math
+namespace FTGAMEStudio.InitialFramework
 {
     /// <summary>
     /// 基于 <see cref="Random"/> 的扩展类。

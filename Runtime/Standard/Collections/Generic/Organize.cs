@@ -1,5 +1,7 @@
+using FTGAMEStudio.InitialFramework.Traverse;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FTGAMEStudio.InitialFramework.Collections.Generic
 {
@@ -34,20 +36,28 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     }
 
     /// <summary>
-    /// 本类是一个抽象基类，用于管理实现了 <see cref="IOrganized"/> 接口的对象。
+    /// 本类用于管理实现了 <see cref="IOrganized"/> 接口的对象。
     /// 
     /// <para>另请参阅 <seealso cref="IOrganized"/>，<seealso cref="IOrganizer{T}"/></para>
     /// </summary>
-    public abstract class Organize<TValue> : IOrganizer<TValue> where TValue : IOrganized
+    [Serializable]
+    public class Organize<TValue, TTraverser> : 
+        IOrganizer<TValue>, 
+        ITraversable<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>, TTraverser>
+        where TValue : IOrganized
+        where TTraverser : Traverser<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>>
     {
         /// <summary>
         /// 注册表。
         /// <br>如果您没有特殊要求，请向本字典注册对象。</br>
         /// </summary>
-        protected SecurityDictionary<Guid, TValue> registry;
+        [SerializeField] protected SecurityDictionary<Guid, TValue> registry;
 
         public virtual int Count => registry.Count;
         public virtual bool IsEmpty => Count == 0;
+
+        public TTraverser Traverser { get; set; }
+
 
         public virtual bool RegValue(TValue value)
         {
@@ -78,22 +88,16 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// <summary>
         /// 遍历此组织。
         /// 
-        /// <para>另请参阅 <seealso cref="OnTraverse(KeyValuePair{Guid, TExternalValue})"/></para>
+        /// <para>另请参阅 <seealso cref="Traverser{TValue, TEnumerable}"/>。</para>
         /// </summary>
-        public virtual void Traverse()
+        public virtual void Traverse() => Traverser.Traverse(registry);
+
+
+        public Organize(TTraverser traverser) : this(new(), traverser) { }
+        public Organize(SecurityDictionary<Guid, TValue> dictionary, TTraverser traverser)
         {
-            List<Guid> guids = new(registry.Keys);
-            foreach (Guid guid in guids) OnTraverse(new(guid, GetValue(guid)));
+            registry = dictionary;
+            Traverser = traverser;
         }
-
-        /// <summary>
-        /// 当被遍历时调用此方法。
-        /// 
-        /// <para>另请参阅 <seealso cref="Traverse"/></para>
-        /// </summary>
-        protected virtual void OnTraverse(KeyValuePair<Guid, TValue> pair) { }
-
-        protected Organize() : this(new()) { }
-        protected Organize(SecurityDictionary<Guid, TValue> dictionary) => registry = dictionary;
     }
 }

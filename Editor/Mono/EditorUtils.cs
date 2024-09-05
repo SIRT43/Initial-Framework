@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace FTGAMEStudio.InitialFrameworkEditor
 {
     /// <summary>
     /// 编辑器工具，实现了更多相对于 EditorUtility 的扩展功能。

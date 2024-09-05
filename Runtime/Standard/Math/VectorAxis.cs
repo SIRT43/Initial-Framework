@@ -1,6 +1,6 @@
 using System;
 
-namespace FTGAMEStudio.InitialFramework.Math
+namespace FTGAMEStudio.InitialFramework
 {
     public enum Vector2Axis : byte
     {

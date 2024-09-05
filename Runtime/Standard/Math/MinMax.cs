@@ -1,6 +1,6 @@
 using System;
 
-namespace FTGAMEStudio.InitialFramework.Math
+namespace FTGAMEStudio.InitialFramework
 {
     /// <summary>
     /// 最大最小基类，用于定义一个大小。

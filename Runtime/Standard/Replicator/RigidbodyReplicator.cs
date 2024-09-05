@@ -1,4 +1,3 @@
-using FTGAMEStudio.InitialFramework.Math;
 using UnityEngine;
 
 namespace FTGAMEStudio.InitialFramework.Replicator

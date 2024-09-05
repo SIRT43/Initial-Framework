@@ -12,7 +12,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         public Type TargetType => targetType;
 
         /// <summary>
-        /// 您必须指定一个 <see cref="Type"/> 以容器为其工作。
+        /// 您必须指定一个 <see cref="Type"/> 使容器为其或其派生类工作。
         /// </summary>
         public MapContainerAttribute(Type targetType) => this.targetType = targetType;
     }

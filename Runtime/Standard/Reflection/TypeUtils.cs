@@ -12,11 +12,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         /// </summary>
         public static Dictionary<string, List<T>> ClassifyWithUniqueName<T>(T[] values)
         {
-            FilterableClassifier<string, T> classifier = new((T value, out string key) =>
-            {
-                key = GetUniqueName(value.GetType());
-                return true;
-            });
+            FilterableClassifier<string, T> classifier = new((T value) => true, (T value) => GetUniqueName(value.GetType()));
 
             return classifier.Classify(values);
         }
@@ -55,6 +51,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
             return propertyInfo;
         }
+
 
         /// <summary>
         /// 获取变量。

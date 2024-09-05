@@ -8,12 +8,14 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     /// <summary>
     /// 基于反射实现的变量成员映射。
     /// 
-    /// <para>另请参阅 <seealso cref="System.Reflection"/>。</para>
+    /// <para>另请参阅 System.Reflection。</para>
     /// </summary>
     public static class Mapping
     {
         public static bool IsMappable(MemberInfo memberInfo) => !memberInfo.IsDefined(typeof(NonMappableAttribute), true);
         public static bool IsMappable(VariableInfo variableInfo) => IsMappable(variableInfo as MemberInfo) && IsMappable(variableInfo.ValueType);
+
+
 
         public static Type GetMapTargetType(Type container, bool inherit = false)
         {
@@ -24,6 +26,8 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         }
 
         public static Type GetMapTargetType(object container, bool inherit = false) => GetMapTargetType(container.GetType(), inherit);
+
+
 
         /// <summary>
         /// 验证容器的目标类型是否是指定类型。
@@ -36,6 +40,12 @@ namespace FTGAMEStudio.InitialFramework.Reflection
             return false;
         }
 
+        /// <summary>
+        /// 验证容器的目标类型是否是指定类型。
+        /// </summary>
+        public static bool VerifyMapTarget(object container, object instance) => VerifyMapTarget(container.GetType(), instance.GetType());
+
+
         /// <summary>  
         /// 验证容器是否可以与指定类型进行映射。
         /// </summary>
@@ -46,6 +56,11 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
             return true;
         }
+
+        /// <summary>  
+        /// 验证容器是否可以与指定类型进行映射。
+        /// </summary>
+        public static bool VerifyMapping(object container, object instance) => VerifyMapping(container.GetType(), instance.GetType());
 
 
 

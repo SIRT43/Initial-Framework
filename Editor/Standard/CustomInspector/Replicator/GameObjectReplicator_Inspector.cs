@@ -3,7 +3,7 @@ using FTGAMEStudio.InitialFramework.Replicator;
 using UnityEditor;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.CustomInspector
+namespace FTGAMEStudio.InitialFrameworkEditor.CustomInspector
 {
     [CustomEditor(typeof(GameObjectReplicator))]
     public class GameObjectReplicator_Inspector : Editor

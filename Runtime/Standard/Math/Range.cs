@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Math
+namespace FTGAMEStudio.InitialFramework
 {
     /// <summary>
     /// 当您创建一个范围时，请尝试继承本接口。

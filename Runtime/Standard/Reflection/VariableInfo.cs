@@ -4,6 +4,11 @@ using System.Reflection;
 
 namespace FTGAMEStudio.InitialFramework.Reflection
 {
+    public interface IVariableInfo<TMemberType> : IVariableInfo where TMemberType : MemberInfo
+    {
+        public new TMemberType Original { get; }
+    }
+
     public class VariableInfo : VariableInfoBase
     {
         public static implicit operator VariableInfo(FieldInfo fieldInfo) => new(fieldInfo);

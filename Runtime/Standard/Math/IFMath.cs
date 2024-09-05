@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Math
+namespace FTGAMEStudio.InitialFramework
 {
     public static class IFMath
     {

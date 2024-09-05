@@ -47,16 +47,6 @@ namespace FTGAMEStudio.InitialFramework.IO
             return true;
         }
 
-        /// <returns>当文件不存在，取消操作并返回 false。</returns>
-        public override bool Move(string newPath)
-        {
-            if (!Exists()) return false;
-            if (!Directory.Exists(newPath)) Directory.CreateDirectory(newPath);
-
-            File.Move(FullPath, Path.Combine(newPath, Name));
-            return true;
-        }
-
         /// <summary>
         /// 文件不存在时，则创建文件。
         /// </summary>

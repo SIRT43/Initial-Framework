@@ -30,15 +30,5 @@ namespace FTGAMEStudio.InitialFramework.IO
             Directory.Delete(FullPath);
             return true;
         }
-
-        /// <returns>当文件夹不存在，取消操作并返回 false。</returns>
-        public override bool Move(string newPath)
-        {
-            if (!Exists()) return false;
-            if (!Directory.Exists(newPath)) Directory.CreateDirectory(newPath);
-
-            Directory.Move(FullPath, Path.Combine(newPath, Name));
-            return true;
-        }
     }
 }

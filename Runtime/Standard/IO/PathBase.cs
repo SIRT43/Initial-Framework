@@ -22,7 +22,6 @@ namespace FTGAMEStudio.InitialFramework.IO
 
         bool Create();
         bool Delete();
-        bool Move(string newPath);
     }
 
     /// <summary>
@@ -43,7 +42,6 @@ namespace FTGAMEStudio.InitialFramework.IO
 
         public abstract bool Create();
         public abstract bool Delete();
-        public abstract bool Move(string newPath);
 
         public override string ToString() => FullPath;
     }

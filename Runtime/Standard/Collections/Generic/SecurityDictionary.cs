@@ -5,23 +5,23 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 {
     public interface ISecurityDictionary<TKey, TValue>
     {
-        public bool AddSecurity(TKey key, TValue value);
-        public bool SetSecurity(TKey key, TValue value);
+        bool AddSecurity(TKey key, TValue value);
+        bool SetSecurity(TKey key, TValue value);
 
-        public bool GetSecurity(TKey key, out TValue value);
+        bool GetSecurity(TKey key, out TValue value);
 
-        public bool OverrideValue(TKey key, TValue value);
+        bool OverrideValue(TKey key, TValue value);
 
-        public bool RemoveSecurity(TKey key);
+        bool RemoveSecurity(TKey key);
 
         /// <summary>
         /// 检查键值对是否有效，所有安全操作都将基于本方法。
         /// </summary>
-        public bool IsValid(TKey key, TValue value);
-        public bool IsValid(TKey key);
-        public bool IsValid(TValue value);
+        bool IsValid(TKey key, TValue value);
+        bool IsValid(TKey key);
+        bool IsValid(TValue value);
 
-        public bool Examine(TKey key);
+        bool Examine(TKey key);
     }
 
     /// <summary>  

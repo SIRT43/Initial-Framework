@@ -5,6 +5,6 @@ namespace FTGAMEStudio.InitialFramework.IO
         /// <summary>
         /// 推荐使用只读或编译时常量。
         /// </summary>
-        public UnityFile FileLocation { get; }
+        UnityFile FileLocation { get; }
     }
 }

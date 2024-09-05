@@ -7,18 +7,18 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 {
     public interface IMetadataOrganizer
     {
-        public event Action<int, bool> OnMetadataCountChanged;
+        event Action<int, bool> OnMetadataCountChanged;
 
-        public int MetadataCount { get; }
-        public bool IsMetadataEmpty { get; }
+        int MetadataCount { get; }
+        bool IsMetadataEmpty { get; }
 
         /// <summary>
         /// 注册元数据，值的 <see cref="Guid"/> 应该是唯一的。
         /// </summary>
-        public bool RegMetadata(Guid guid);
-        public bool RemoveMetadata(Guid guid);
+        bool RegMetadata(Guid guid);
+        bool RemoveMetadata(Guid guid);
 
-        public bool HasRegMetadata(Guid guid);
+        bool HasRegMetadata(Guid guid);
     }
 
     /// <summary>
@@ -29,8 +29,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     /// </para>
     /// </summary>
     [Serializable]
-    public class MetadataOrganize<TValue, TTraverser> : 
-        Organize<TValue, TTraverser>, 
+    public class MetadataOrganize<TValue, TTraverser> :
+        Organize<TValue, TTraverser>,
         ITraversable<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>, TTraverser>
         where TValue : IOrganized
         where TTraverser : Traverser<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>>

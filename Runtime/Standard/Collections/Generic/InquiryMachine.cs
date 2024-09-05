@@ -4,11 +4,10 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 {
     public interface IInquiryable<TKey, TValue>
     {
-        public TValue Inquiry(TKey key);
-        public bool TryInquiry(TKey key, out TValue value);
+        TValue Inquiry(TKey key);
+        bool TryInquiry(TKey key, out TValue value);
 
-
-        public bool Has(TKey key);
+        bool Has(TKey key);
     }
 
     /// <summary>

@@ -8,21 +8,21 @@ namespace FTGAMEStudio.InitialFramework.IO
         /// <summary>
         /// 文件名或文件夹名。
         /// </summary>
-        public string Name { get; }
+        string Name { get; }
         /// <summary>
         /// 文件或文件夹所处的路径。
         /// </summary>
-        public string BasePath { get; }
+        string BasePath { get; }
         /// <summary>
         /// 文件或文件夹的完整路径。
         /// </summary>
-        public string FullPath { get; }
+        string FullPath { get; }
 
-        public bool Exists();
+        bool Exists();
 
-        public bool Create();
-        public bool Delete();
-        public bool Move(string newPath);
+        bool Create();
+        bool Delete();
+        bool Move(string newPath);
     }
 
     /// <summary>

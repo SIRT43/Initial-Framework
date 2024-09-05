@@ -4,8 +4,8 @@ namespace FTGAMEStudio.InitialFramework.Replicator
 {
     public interface IGameObjectReplicator
     {
-        public GameObject SingleObject();
-        public GameObject[] MultipleObject(int count);
+        GameObject SingleObject();
+        GameObject[] MultipleObject(int count);
     }
 
     [AddComponentMenu("Initial Framework/Replicator/GameObject Replicator")]

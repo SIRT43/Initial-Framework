@@ -8,18 +8,18 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
 {
     public interface IWeakReferenceDictionary<TKey, TValue> : IDictionary<TKey, WeakReference<TValue>>, IRefreshable where TValue : class
     {
-        public new TValue this[TKey key] { get; set; }
+        new TValue this[TKey key] { get; set; }
 
-        public new ICollection<TValue> Values { get; }
+        new ICollection<TValue> Values { get; }
 
-        public void Add(TKey key, TValue value);
+        void Add(TKey key, TValue value);
 
-        public bool SetTarget(TKey key, TValue value);
+        bool SetTarget(TKey key, TValue value);
 
-        public bool ContainsValue(TValue value);
+        bool ContainsValue(TValue value);
 
-        public TValue GetTarget(TKey key);
-        public bool TryGetTarget(TKey key, out TValue value);
+        TValue GetTarget(TKey key);
+        bool TryGetTarget(TKey key, out TValue value);
     }
 
     /// <summary>

@@ -12,21 +12,21 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         /// <summary>
         /// 应该以怎样的特征查询成员。
         /// </summary>
-        public BindingFlags BindingAttr { get; set; }
+        BindingFlags BindingAttr { get; set; }
 
-        public bool IsMappable(MemberInfo memberInfo);
-        public bool IsMappable(VariableInfo variableInfo);
+        bool IsMappable(MemberInfo memberInfo);
+        bool IsMappable(VariableInfo variableInfo);
 
         /// <summary>
         /// 验证容器的目标类型是否是指定类型。
         /// </summary>
-        public bool VerifyMapTarget(Type container, Type instance);
+        bool VerifyMapTarget(Type container, Type instance);
         /// <summary>  
         /// 验证容器是否可以与指定类型进行映射。
         /// </summary>
-        public bool VerifyMapping(Type container, Type instance);
+        bool VerifyMapping(Type container, Type instance);
 
-        public bool Map<T>(object container, ref T instance);
+        bool Map<T>(object container, ref T instance);
     }
 
     /// <summary>  

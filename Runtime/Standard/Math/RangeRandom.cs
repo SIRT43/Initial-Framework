@@ -9,7 +9,7 @@ namespace FTGAMEStudio.InitialFramework
     /// </summary>
     public interface IRandomable<T> : IRange<T>
     {
-        public T Range();
+        T Range();
     }
 
     [Serializable]

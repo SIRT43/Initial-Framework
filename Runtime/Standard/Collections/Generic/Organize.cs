@@ -15,7 +15,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// 本对象的 <see cref="System.Guid"/>。
         /// <br>如果没有其他要求，您应该将此字段初始化为编译时常量。</br>
         /// </summary>
-        public Guid Guid { get; }
+        Guid Guid { get; }
     }
 
     public interface IOrganizer<T> where T : IOrganized
@@ -23,16 +23,16 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// <summary>
         /// 注册值，值的 <see cref="Guid"/> 应该是唯一的。
         /// </summary>
-        public bool RegValue(T value);
+        bool RegValue(T value);
 
-        public T GetValue(Guid guid);
-        public bool TryGetValue(Guid guid, out T value);
+        T GetValue(Guid guid);
+        bool TryGetValue(Guid guid, out T value);
 
-        public bool HasReg(Guid guid);
+        bool HasReg(Guid guid);
 
-        public bool Override(T value);
+        bool Override(T value);
 
-        public bool RemoveValue(Guid guid);
+        bool RemoveValue(Guid guid);
     }
 
     /// <summary>
@@ -41,8 +41,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     /// <para>另请参阅 <seealso cref="IOrganized"/>，<seealso cref="IOrganizer{T}"/></para>
     /// </summary>
     [Serializable]
-    public class Organize<TValue, TTraverser> : 
-        IOrganizer<TValue>, 
+    public class Organize<TValue, TTraverser> :
+        IOrganizer<TValue>,
         ITraversable<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>, TTraverser>
         where TValue : IOrganized
         where TTraverser : Traverser<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>>

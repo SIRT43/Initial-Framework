@@ -6,7 +6,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 {
     public interface IVariableInfo<TMemberType> : IVariableInfo where TMemberType : MemberInfo
     {
-        public new TMemberType Original { get; }
+        new TMemberType Original { get; }
     }
 
     public class VariableInfo : VariableInfoBase

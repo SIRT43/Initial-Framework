@@ -5,11 +5,11 @@ namespace FTGAMEStudio.InitialFramework.IO
 {
     public interface IFile
     {
-        public string FileName { get; }
-        public FilenameExtension Extension { get; }
+        string FileName { get; }
+        FilenameExtension Extension { get; }
 
-        public void Write(string content);
-        public bool Read(out string content);
+        void Write(string content);
+        bool Read(out string content);
     }
 
     /// <summary>

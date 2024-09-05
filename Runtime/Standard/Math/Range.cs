@@ -11,11 +11,11 @@ namespace FTGAMEStudio.InitialFramework
         /// <summary>
         /// 钳制传入的值并返回钳制的结果。
         /// </summary>
-        public T Clamp(T v);
+        T Clamp(T v);
         /// <summary>
         /// 传入的值是否在范围内。
         /// </summary>
-        public bool InRange(T v);
+        bool InRange(T v);
     }
 
     /// <summary>

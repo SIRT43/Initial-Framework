@@ -6,13 +6,13 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 {
     public interface IVariableInfo
     {
-        public VariableType VariableType { get; }
-        public MemberInfo Original { get; }
+        VariableType VariableType { get; }
+        MemberInfo Original { get; }
 
-        public Type ValueType { get; }
+        Type ValueType { get; }
 
-        public object GetValue(object obj);
-        public void SetValue(object obj, object value);
+        object GetValue(object obj);
+        void SetValue(object obj, object value);
     }
 
     public abstract class VariableInfoBase : MemberInfo, IVariableInfo

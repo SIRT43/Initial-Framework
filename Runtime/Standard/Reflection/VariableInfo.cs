@@ -16,32 +16,10 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
 
 
-        protected MemberInfo target;
-        protected override MemberInfo Target => target;
+        public VariableInfo(FieldInfo fieldInfo) : base(fieldInfo) { }
+        public VariableInfo(PropertyInfo propertyInfo) : base(propertyInfo) { }
 
-        private VariableType variableType;
-        public override VariableType VariableType { get => variableType; protected set => variableType = value; }
-
-
-
-        /// <summary>
-        /// 在此之前，您必须提供字段或属性。
-        /// </summary>
-        public VariableInfo(FieldInfo fieldInfo)
-        {
-            target = fieldInfo;
-            variableType = VariableType.Field;
-        }
-        /// <summary>
-        /// 在此之前，您必须提供字段或属性。
-        /// </summary>
-        public VariableInfo(PropertyInfo propertyInfo)
-        {
-            target = propertyInfo;
-            variableType = VariableType.Property;
-        }
-
-        protected VariableInfo() { }
+        protected VariableInfo() : base() { }
     }
 
     public class VariableInfo<TMemberType> : VariableInfo, IVariableInfo<TMemberType> where TMemberType : MemberInfo
@@ -50,19 +28,15 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
 
 
-        private readonly TMemberType original;
-        public new TMemberType Original => original;
+        public new TMemberType Original { get; protected set; }
 
-        /// <summary>
-        /// 在此之前，您必须提供信息。
-        /// </summary>
+
         public VariableInfo(TMemberType memberType)
         {
-            target = memberType;
+            Original = memberType;
 
-            if (memberType is FieldInfo) VariableType = VariableType.Field;
-            else if (memberType is PropertyInfo) VariableType = VariableType.Property;
-            else throw new ArgumentException($"{memberType.GetType().GetUniqueName()} is not the expected type.", nameof(memberType));
+            if(memberType is not FieldInfo or PropertyInfo) 
+                throw new ArgumentException($"{memberType.GetType().GetUniqueName()} is not the expected type.", nameof(memberType));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace FTGAMEStudio.InitialFramework
     /// 
     /// <para>
     /// 本结构用于与 <see cref="IFPhysics"/> 相关的探测计算。
-    /// <br>它可以与 <see cref="Ray"/> 进行显式转换，但将 <see cref="Ray"/> 转换为 <see cref="Probe"/> 将丢失半径数据。</br>
+    /// <br>它可以与 <see cref="Ray"/> 进行显式转换。</br>
     /// </para>
     /// </summary>
     [Serializable]

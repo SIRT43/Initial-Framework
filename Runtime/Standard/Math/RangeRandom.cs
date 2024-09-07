@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace FTGAMEStudio.InitialFramework
 {
-    /// <summary>
-    /// 可随机的。
-    /// <br>当您创建可随机对象时，请继承本接口。</br>
-    /// </summary>
     public interface IRandomable<T> : IRange<T>
     {
         T Range();

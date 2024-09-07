@@ -8,7 +8,7 @@ namespace FTGAMEStudio.InitialFramework.Classifying
     /// </summary>
     /// <typeparam name="TKey">用于分类的键的类型。</typeparam>
     /// <typeparam name="TValue">要分类的值的类型。</typeparam>
-    public interface IClassifiable<TKey, TValue> : IFlowTraversable<TValue, TValue[]>
+    public interface IClassifiable<TKey, TValue> : IFlowTraversable<TValue[], TValue>
     {
         /// <summary>
         /// 将一组值分类到基于键的列表中。
@@ -26,7 +26,7 @@ namespace FTGAMEStudio.InitialFramework.Classifying
     /// </summary>  
     /// <typeparam name="TKey">用于分类的键的类型。</typeparam>  
     /// <typeparam name="TValue">要分类的值的类型。</typeparam>
-    public abstract class Classifier<TKey, TValue> : Traverser<TValue, TValue[]>, IClassifiable<TKey, TValue>
+    public abstract class Classifier<TKey, TValue> : Traverser<TValue[], TValue>, IClassifiable<TKey, TValue>
     {
         private Dictionary<TKey, List<TValue>> classify;
 
@@ -36,15 +36,15 @@ namespace FTGAMEStudio.InitialFramework.Classifying
 
         public virtual Dictionary<TKey, List<TValue>> Classify(TValue[] values)
         {
-            Dictionary<TKey, List<TValue>> classify = this.classify;
+            Dictionary<TKey, List<TValue>>  classify = new();
+            this.classify = classify;
 
             Traverse(values);
 
+            this.classify = null;
+
             return classify;
         }
-
-        protected override void AfterTraverse(TValue[] values) => classify = new();
-        protected override void BeforeTraverse(TValue[] values) => classify = null;
 
         protected override void OnTraverse(TValue value)
         {

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEngine;
 
 namespace FTGAMEStudio.InitialFramework.IO
@@ -28,37 +29,6 @@ namespace FTGAMEStudio.InitialFramework.IO
     }
 
     /// <summary>
-    /// Unity 基路径，用于决定访问的基路径。
-    /// </summary>
-    [Serializable]
-    public class UnityPath : DirectoryBase
-    {
-        public UnityPathType type;
-
-        public override string FullPath => type switch
-        {
-            UnityPathType.persistentDataPath => Application.persistentDataPath,
-            UnityPathType.consoleLogPath => Application.consoleLogPath,
-            UnityPathType.dataPath => Application.dataPath,
-            UnityPathType.streamingAssetsPath => Application.streamingAssetsPath,
-            UnityPathType.temporaryCachePath => Application.temporaryCachePath,
-            _ => Application.persistentDataPath,
-        };
-
-        /// <summary>
-        /// 本字段返回 <see cref="FullPath"/>。
-        /// </summary>
-        public override string BasePath => FullPath;
-        /// <summary>
-        /// 本字段返回空字符串。
-        /// </summary>
-        public override string Name => "";
-
-        public UnityPath() => type = UnityPathType.persistentDataPath;
-        public UnityPath(UnityPathType basePathType) => type = basePathType;
-    }
-
-    /// <summary>
     /// 路径，用于决定访问的路径。
     /// </summary>
     [Serializable]
@@ -67,13 +37,67 @@ namespace FTGAMEStudio.InitialFramework.IO
         [SerializeField] private string basePath;
         [SerializeField] private string name;
 
-        public override string BasePath => basePath;
-        public override string Name => name;
+        public override string BasePath { get => basePath; set => basePath = value; }
+        public override string Name { get => name; set => name = value; }
 
         public StandardPath(string basePath, string name)
         {
-            this.basePath = basePath;
-            this.name = name;
+            BasePath = basePath;
+            Name = name;
         }
+    }
+
+    /// <summary>
+    /// Unity 基路径，用于决定访问的基路径。
+    /// </summary>
+    [Serializable]
+    public class UnityPath : DirectoryBase
+    {
+        public UnityPathType type;
+
+        /// <summary>
+        /// 您无法进行赋值操作。
+        /// </summary>
+        public override string FullPath
+        {
+            get => type switch
+            {
+                UnityPathType.persistentDataPath => Application.persistentDataPath,
+                UnityPathType.consoleLogPath => Application.consoleLogPath,
+                UnityPathType.dataPath => Application.dataPath,
+                UnityPathType.streamingAssetsPath => Application.streamingAssetsPath,
+                UnityPathType.temporaryCachePath => Application.temporaryCachePath,
+                _ => Application.persistentDataPath,
+            };
+            set => throw new InvalidOperationException("You can't modify the Unity path.");
+        }
+
+        /// <summary>
+        /// 您无法进行赋值操作。
+        /// </summary>
+        public override string BasePath { get => Path.GetDirectoryName(FullPath); set => throw new InvalidOperationException("You can't modify the Unity path."); }
+        /// <summary>
+        /// 您无法进行赋值操作。
+        /// </summary>
+        public override string Name { get => GetPathName(FullPath); set => throw new InvalidOperationException("You can't modify the Unity path."); }
+
+        /// <summary>
+        /// 本方法永远返回 true。
+        /// </summary>
+        public override bool Exists() => true;
+        /// <summary>
+        /// 您无法进行此操作。
+        /// </summary>
+        public override bool Create() => throw new InvalidOperationException("You can't modify the Unity path.");
+        /// <summary>
+        /// 您无法进行此操作。
+        /// </summary>
+        public override bool Delete() => throw new InvalidOperationException("You can't modify the Unity path.");
+        /// <summary>
+        /// 您无法进行此操作。
+        /// </summary>
+        public override bool Move(string newBasePath) => throw new InvalidOperationException("You can't modify the Unity path.");
+
+        public UnityPath(UnityPathType type) => this.type = type;
     }
 }

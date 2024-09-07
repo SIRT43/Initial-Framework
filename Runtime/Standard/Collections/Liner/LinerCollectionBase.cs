@@ -13,7 +13,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Liner
         public int Count => values.Count;
         public bool IsEmpty => Count == 0;
 
-        protected abstract int OperateIndex { get; }
+        public abstract int OperateIndex { get; }
 
 
         protected LinerCollectionBase(List<T> values) => this.values = values;

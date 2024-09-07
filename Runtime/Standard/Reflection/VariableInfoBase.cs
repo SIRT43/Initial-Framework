@@ -6,8 +6,8 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 {
     public interface IVariableInfo
     {
-        VariableType VariableType { get; }
         MemberInfo Original { get; }
+        VariableType VariableType { get; }
 
         Type ValueType { get; }
 
@@ -17,14 +17,16 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
     public abstract class VariableInfoBase : MemberInfo, IVariableInfo
     {
-        protected abstract MemberInfo Target { get; }
+        public virtual MemberInfo Original { get; protected set; }
+        public virtual VariableType VariableType => (Original is FieldInfo) ? VariableType.Field : VariableType.Property;
+
 
         private FieldInfo fieldInfo;
         private FieldInfo FieldInfo
         {
             get
             {
-                fieldInfo ??= Target as FieldInfo;
+                fieldInfo ??= Original as FieldInfo;
                 return fieldInfo;
             }
         }
@@ -34,14 +36,11 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         {
             get
             {
-                propertyInfo ??= Target as PropertyInfo;
+                propertyInfo ??= Original as PropertyInfo;
                 return propertyInfo;
             }
         }
 
-
-        public abstract VariableType VariableType { get; protected set; }
-        public virtual MemberInfo Original => Target;
 
         public virtual Type ValueType =>
             VariableType == VariableType.Field ? FieldInfo.FieldType : PropertyInfo.PropertyType;
@@ -55,6 +54,12 @@ namespace FTGAMEStudio.InitialFramework.Reflection
             if (VariableType == VariableType.Field) FieldInfo.SetValue(obj, value);
             else PropertyInfo.SetValue(obj, value);
         }
+
+
+
+        protected VariableInfoBase() { }
+        protected VariableInfoBase(FieldInfo fieldInfo) => Original = fieldInfo;
+        protected VariableInfoBase(PropertyInfo propertyInfo) => Original = propertyInfo;
 
 
 

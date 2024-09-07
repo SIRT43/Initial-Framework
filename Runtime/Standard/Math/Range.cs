@@ -3,18 +3,9 @@ using UnityEngine;
 
 namespace FTGAMEStudio.InitialFramework
 {
-    /// <summary>
-    /// 当您创建一个范围时，请尝试继承本接口。
-    /// </summary>
     public interface IRange<T>
     {
-        /// <summary>
-        /// 钳制传入的值并返回钳制的结果。
-        /// </summary>
         T Clamp(T v);
-        /// <summary>
-        /// 传入的值是否在范围内。
-        /// </summary>
         bool InRange(T v);
     }
 
@@ -22,9 +13,16 @@ namespace FTGAMEStudio.InitialFramework
     /// 范围基类，用于定义一个范围。
     /// </summary>
     [Serializable]
-    public abstract class Range<T> : MinMax<T>, IRange<T> where T : struct
+    public abstract class Range<T> : IRange<T>
     {
-        protected Range(T min, T max) : base(min, max) { }
+        public T min;
+        public T max;
+
+        protected Range(T min, T max)
+        {
+            this.min = min;
+            this.max = max;
+        }
 
         public abstract T Clamp(T v);
         public abstract bool InRange(T v);
@@ -33,8 +31,6 @@ namespace FTGAMEStudio.InitialFramework
 
     /// <summary>
     /// 创建一个 <see cref="float"/> 范围。
-    /// 
-    /// <para>另请参阅 <seealso cref="Range{T}"/></para>
     /// </summary>
     [Serializable]
     public class FloatRange : Range<float>
@@ -47,8 +43,6 @@ namespace FTGAMEStudio.InitialFramework
 
     /// <summary>
     /// 创建一个 <see cref="Vector2"/> 范围。
-    /// 
-    /// <para>另请参阅 <seealso cref="Range{T}"/></para>
     /// </summary>
     [Serializable]
     public class Vector2Range : Range<Vector2>
@@ -61,8 +55,6 @@ namespace FTGAMEStudio.InitialFramework
 
     /// <summary>
     /// 创建一个 <see cref="Vector3"/> 范围。
-    /// 
-    /// <para>另请参阅 <seealso cref="Range{T}"/></para>
     /// </summary>
     [Serializable]
     public class Vector3Range : Range<Vector3>

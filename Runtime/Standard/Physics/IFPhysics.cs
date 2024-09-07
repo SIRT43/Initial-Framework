@@ -24,7 +24,7 @@ namespace FTGAMEStudio.InitialFramework
 
             Vector3 original = IFMath.MoveTo(probe.original, probe.direction, hitInfo.distance * inference);
 
-            float testPosCount = maxDistance / probe.radius * density;
+            float testPosCount = maxDistance / (probe.radius * density);
             float singleDistance = maxDistance / testPosCount;
 
             Vector3 noCollision = FindNoCollisionPosition(original, probe.direction, probe.radius, singleDistance, maxDistance, targetLayer);

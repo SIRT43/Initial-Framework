@@ -34,7 +34,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
             cleaner.Start();
         }
 
-        protected virtual void Cleaner_Elapsed(object sender, ElapsedEventArgs e) => Refresh();
+        private void Cleaner_Elapsed(object sender, ElapsedEventArgs e) => Refresh();
 
         /// <summary>
         /// 释放 <see cref="Timer"/> 的托管资源。
@@ -49,6 +49,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
         }
 
         ~WeakRefDictAutoClean() => Dispose();
+
+
 
         public WeakRefDictAutoClean() : this(60000) { }
         public WeakRefDictAutoClean(IDictionary<TKey, WeakReference<TValue>> dictionary) : base(dictionary) { }

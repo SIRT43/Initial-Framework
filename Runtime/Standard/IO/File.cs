@@ -14,15 +14,20 @@ namespace FTGAMEStudio.InitialFramework.IO
         [SerializeField] private string fileName;
         [SerializeField] private FilenameExtension extension;
 
-        public override string BasePath => basePath;
-        public override string FileName => fileName;
-        public override FilenameExtension Extension => extension;
+        public override string BasePath { get => basePath; set => basePath = value; }
+        public override string FileName { get => fileName; set => fileName = value; }
+
+        public override string Extension
+        {
+            get => extension.ToString();
+            set => extension = Enum.TryParse(value, out FilenameExtension result) ? result : FilenameExtension.infr;
+        }
 
         public StandardFile(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr)
         {
-            this.basePath = basePath;
-            this.fileName = fileName;
-            this.extension = extension;
+            BasePath = basePath;
+            FileName = fileName;
+            Extension = extension.ToString();
         }
     }
 
@@ -41,7 +46,8 @@ namespace FTGAMEStudio.InitialFramework.IO
             base(basePath, fileName, extension) => this.unityPath = unityPath;
 
         public UnityFile(UnityPathType unityPath, string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) :
-            base(basePath, fileName, extension) => this.unityPath = new(unityPath);
+            this(new UnityPath(unityPath), basePath, fileName, extension)
+        { }
 
         public UnityFile(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) :
             this(UnityPathType.persistentDataPath, basePath, fileName, extension)

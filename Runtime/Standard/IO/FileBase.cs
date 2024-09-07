@@ -5,11 +5,11 @@ namespace FTGAMEStudio.InitialFramework.IO
 {
     public interface IFile
     {
-        string FileName { get; }
-        FilenameExtension Extension { get; }
+        string FileName { get; set; }
+        string Extension { get; set; }
 
-        void Write(string content);
-        bool Read(out string content);
+        void WriteAllText(string content);
+        bool ReadAllText(out string content);
     }
 
     /// <summary>
@@ -21,24 +21,42 @@ namespace FTGAMEStudio.InitialFramework.IO
         public static implicit operator DirectoryInfo(FileBase file) => new(file.BasePath);
         public static implicit operator FileInfo(FileBase file) => new(file.FullPath);
 
-        public abstract string FileName { get; }
-        public abstract FilenameExtension Extension { get; }
 
-        public override string Name => $"{FileName}.{Extension}";
+
+        public abstract string FileName { get; set; }
+        public abstract string Extension { get; set; }
+
+        public override string Name
+        {
+            get => $"{FileName}.{Extension}";
+            set
+            {
+                FileName = Path.GetFileNameWithoutExtension(value);
+                Extension = Path.GetExtension(value)[1..];
+            }
+        }
+
+
 
         public override bool Exists() => File.Exists(FullPath);
 
-        /// <returns>当文件已存在，取消操作并返回 false。</returns>
+
+        /// <summary>
+        /// 当文件已存在时，返回 false。
+        /// </summary>
         public override bool Create()
         {
             if (Exists()) return false;
+
             if (!Directory.Exists(BasePath)) Directory.CreateDirectory(BasePath);
 
             File.Create(FullPath).Close();
             return true;
         }
 
-        /// <returns>当文件不存在，取消操作并返回 false。</returns>
+        /// <summary>
+        /// 当文件不存在时，返回 false。
+        /// </summary>
         public override bool Delete()
         {
             if (!Exists()) return false;
@@ -47,18 +65,36 @@ namespace FTGAMEStudio.InitialFramework.IO
             return true;
         }
 
+
+        /// <summary>
+        /// 当文件不存在时，返回 false。
+        /// </summary>
+        public override bool Move(string newBasePath)
+        {
+            if (!Exists()) return false;
+
+            File.Move(FullPath, Path.Combine(newBasePath, Name));
+
+            BasePath = newBasePath;
+
+            return true;
+        }
+
+
         /// <summary>
         /// 文件不存在时，则创建文件。
         /// </summary>
-        public void Write(string content)
+        public void WriteAllText(string content)
         {
             if (!Exists()) Create();
 
             File.WriteAllText(FullPath, content);
         }
 
-        /// <returns>当文件不存在，取消操作并返回 false。</returns>
-        public bool Read(out string content)
+        /// <summary>
+        /// 当文件不存在时，返回 false。
+        /// </summary>
+        public bool ReadAllText(out string content)
         {
             if (Exists())
             {

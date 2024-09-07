@@ -31,9 +31,9 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     [Serializable]
     public class MetadataOrganize<TValue, TTraverser> :
         Organize<TValue, TTraverser>,
-        ITraversable<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>, TTraverser>
+        ITraversable<TTraverser, Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>
         where TValue : IOrganized
-        where TTraverser : Traverser<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>>
+        where TTraverser : Traverser<Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>, new()
     {
         /// <summary>
         /// ÔªÊý¾Ý¡£
@@ -59,10 +59,12 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 
         public virtual bool RemoveMetadata(Guid guid)
         {
-            bool result = metadata.Remove(guid);
+            if (!HasRegMetadata(guid)) return false;
+
+            metadata.Remove(guid);
             OnMetadataCountChanged?.Invoke(MetadataCount, IsMetadataEmpty);
 
-            return result;
+            return true;
         }
 
         public virtual bool HasRegMetadata(Guid guid) => metadata.ContainsKey(guid);
@@ -81,7 +83,10 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         }
 
 
-        protected MetadataOrganize(TTraverser traverser) : base(traverser) { }
-        protected MetadataOrganize(SecurityDictionary<Guid, TValue> dictionary, TTraverser traverser) : base(dictionary, traverser) { }
+
+        public MetadataOrganize(ValidDictionary<Guid, TValue> dictionary, TTraverser traverser) : base(dictionary, traverser) { }
+        public MetadataOrganize(ValidDictionary<Guid, TValue> dictionary) : base(dictionary) { }
+        public MetadataOrganize(TTraverser traverser) : base(traverser) { }
+        public MetadataOrganize() { }
     }
 }

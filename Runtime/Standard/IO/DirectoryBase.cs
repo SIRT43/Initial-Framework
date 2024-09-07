@@ -11,9 +11,14 @@ namespace FTGAMEStudio.InitialFramework.IO
     {
         public static implicit operator DirectoryInfo(DirectoryBase directory) => new(directory);
 
+
+
         public override bool Exists() => Directory.Exists(FullPath);
 
-        /// <returns>当文件夹已存在，取消操作并返回 false。</returns>
+
+        /// <summary>
+        /// 当文件夹已存在时，返回 false。
+        /// </summary>
         public override bool Create()
         {
             if (Exists()) return false;
@@ -22,12 +27,29 @@ namespace FTGAMEStudio.InitialFramework.IO
             return true;
         }
 
-        /// <returns>当文件夹不存在，取消操作并返回 false。</returns>
+        /// <summary>
+        /// 当文件夹不存在时，返回 false。
+        /// </summary>
         public override bool Delete()
         {
             if (!Exists()) return false;
 
             Directory.Delete(FullPath);
+            return true;
+        }
+
+
+        /// <summary>
+        /// 当文件夹不存在时，返回 false。
+        /// </summary>
+        public override bool Move(string newBasePath)
+        {
+            if (!Exists()) return false;
+
+            Directory.Move(FullPath, Path.Combine(newBasePath, Name));
+
+            BasePath = newBasePath;
+
             return true;
         }
     }

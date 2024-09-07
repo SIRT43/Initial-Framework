@@ -19,20 +19,24 @@ namespace FTGAMEStudio.InitialFrameworkEditor
         /// 获取聚焦的编辑器窗口。
         /// </summary>
         public static EditorWindow GetFocusedWindow() => EditorWindow.focusedWindow;
+
         /// <summary>
-        /// 设置聚焦编辑器窗口。
+        /// 检查编辑器窗口。
         /// </summary>
-        public static void SetFocusedWindow(string window) => EditorApplication.ExecuteMenuItem("Window/" + window);
+        public static bool ExecuteWindow(string windowPath) => EditorApplication.ExecuteMenuItem("Window/" + windowPath);
+
 
         /// <summary>
         /// 向指定的编辑器窗口发送重命名事件。
         /// </summary>
         public static void SendRename(EditorWindow target) =>
             target.SendEvent(new() { keyCode = KeyCode.F2, type = EventType.KeyDown });
+
         /// <summary>
         /// 向聚焦的编辑器窗口发送重命名事件。
         /// </summary>
         public static void SendRename() => SendRename(GetFocusedWindow());
+
         /// <summary>
         /// 选择指定对象，并向聚焦的编辑器窗口发送重命名事件。
         /// </summary>
@@ -41,6 +45,7 @@ namespace FTGAMEStudio.InitialFrameworkEditor
             SelectObject(obj);
             SendRename();
         }
+
 
         /// <summary>
         /// 通过对话框保存文件。
@@ -56,12 +61,13 @@ namespace FTGAMEStudio.InitialFrameworkEditor
             if (path == null || path == "") return null;
 
             File.Create(path).Close();
-            if (fileContent != null && fileContent != "") File.WriteAllText(path, fileContent);
+            if (!string.IsNullOrEmpty(fileContent)) File.WriteAllText(path, fileContent);
 
             AssetDatabase.Refresh();
-
+             
             return AssetDatabase.LoadAssetAtPath<TextAsset>(path);
         }
+
         /// <summary>
         /// 通过对话框保存文件并选择它。
         /// </summary>

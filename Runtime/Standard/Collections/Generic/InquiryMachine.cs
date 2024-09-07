@@ -29,14 +29,19 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// <br>在查询机创建后，您将不能修改它。</br>
         /// </summary>
         public InquiryMachine(IDictionary<TKey, TValue> data) : this(new(data)) { }
+        /// <summary>
+        /// 在此之前，您必须提供数据。
+        /// <br>在查询机创建后，您将不能修改它。</br>
+        /// </summary>
+        public InquiryMachine(IEnumerable<KeyValuePair<TKey, TValue>> data) : this(new(data)) { }
 
-        public TValue Inquiry(TKey key)
+        public virtual TValue Inquiry(TKey key)
         {
-            if (!Has(key)) return default;
-            return data[key];
+            TryInquiry(key, out TValue value);
+            return value;
         }
 
-        public bool TryInquiry(TKey key, out TValue value)
+        public virtual bool TryInquiry(TKey key, out TValue value)
         {
             if (Has(key))
             {
@@ -48,6 +53,6 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
             return false;
         }
 
-        public bool Has(TKey key) => data.ContainsKey(key);
+        public virtual bool Has(TKey key) => data.ContainsKey(key);
     }
 }

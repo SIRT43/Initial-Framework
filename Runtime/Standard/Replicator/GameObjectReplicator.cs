@@ -60,7 +60,7 @@ namespace FTGAMEStudio.InitialFramework.Replicator
         {
             replicateCount++;
 
-            GameObject newObject = Instantiate(original, parent);
+            GameObject newObject = Instantiate(original);
             newObject.name = $"{(overrideName ? newObjectName : original.name)}_{replicateCount}";
 
             if (worldPositionStays) newObject.transform.SetPositionAndRotation(align.position, align.rotation);

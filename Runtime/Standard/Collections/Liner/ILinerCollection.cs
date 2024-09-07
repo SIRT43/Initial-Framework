@@ -2,6 +2,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.Liner
 {
     public interface ILinerCollection<T>
     {
+        public int OperateIndex { get; }
+
         void Push(T value);
 
         T Pop();

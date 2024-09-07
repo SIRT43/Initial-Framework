@@ -9,7 +9,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Liner
     [Serializable]
     public class Queue<T> : LinerCollectionBase<T>
     {
-        protected override int OperateIndex => 0;
+        public override int OperateIndex => 0;
 
         /// <summary>
         /// 为队列指定使用的列表。

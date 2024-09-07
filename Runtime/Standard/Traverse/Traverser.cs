@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace FTGAMEStudio.InitialFramework.Traverse
 {
-    public abstract class Traverser<TValue, TEnumerable> : IFlowTraversable<TValue, TEnumerable> where TEnumerable : IEnumerable<TValue>
+    public abstract class Traverser<TEnumerable, TValue> : IFlowTraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
     {
         public virtual FlowControl NonFlowControl { get; }
 
@@ -44,7 +44,7 @@ namespace FTGAMEStudio.InitialFramework.Traverse
         /// <summary>
         /// 当遍历遇到非法值时将调用此方法。
         /// 
-        /// <para>另请参阅 <seealso cref="IsCanonical(T)"/></para>
+        /// <para>另请参阅 <seealso cref="IsCanonical(TValue)"/></para>
         /// </summary>
         protected virtual void OnNonCanonical(TValue value) { }
 
@@ -60,10 +60,8 @@ namespace FTGAMEStudio.InitialFramework.Traverse
         /// </summary>
         protected virtual void AfterTraverse(TEnumerable values) { }
 
-        /// <summary>
-        /// 当遍历时。
-        /// 
-        /// <para>值被视为非法时将不调用此方法。</para>
+        /// <summary>  
+        /// 在遍历过程中，对每一个通过 <see cref="IsCanonical(TValue)"/> 校验的合法值执行操作。  
         /// </summary>
         protected abstract void OnTraverse(TValue value);
     }

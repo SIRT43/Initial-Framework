@@ -11,7 +11,7 @@ namespace FTGAMEStudio.InitialFrameworkEditor.MenuItems
     public static class MenuItemUtils
     {
         /// <summary>
-        /// 为 MenuCommand 上下文创建子对象并发出重命名事件。
+        /// 为 <see cref="MenuCommand"/> 上下文创建子对象并发出重命名事件。
         /// </summary>
         public static void AddChildWithMenuCommand(MenuCommand command, string gameObjectName, bool worldPositionStays = false, params Type[] components)
         {

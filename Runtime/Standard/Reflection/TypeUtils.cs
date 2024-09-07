@@ -8,25 +8,6 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     public static class TypeUtilis
     {
         /// <summary>
-        /// 将派生类按 UniqueName 分类。
-        /// </summary>
-        public static Dictionary<string, List<T>> ClassifyWithUniqueName<T>(T[] values)
-        {
-            FilterableClassifier<string, T> classifier = new((T value) => true, (T value) => GetUniqueName(value.GetType()));
-
-            return classifier.Classify(values);
-        }
-
-
-
-        /// <summary>
-        /// 获取唯一名称，本方法将返回 "Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}" 格式的字符串。
-        /// </summary>
-        public static string GetUniqueName(Type type) => $"Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}";
-
-
-
-        /// <summary>
         /// 获取字段，但该字段的值类型应该是指定的类型。
         /// </summary>
         public static FieldInfo GetField(Type type, string name, Type fieldType, BindingFlags bindingAttr = BindingFlags.Default)
@@ -51,7 +32,6 @@ namespace FTGAMEStudio.InitialFramework.Reflection
 
             return propertyInfo;
         }
-
 
         /// <summary>
         /// 获取变量。
@@ -95,6 +75,23 @@ namespace FTGAMEStudio.InitialFramework.Reflection
             foreach (PropertyInfo propertyInfo in propertyInfos) variableInfos.Add(propertyInfo);
 
             return variableInfos.ToArray();
+        }
+
+
+
+        /// <summary>
+        /// 获取唯一名称，本方法将返回 "Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}" 格式的字符串。
+        /// </summary>
+        public static string GetUniqueName(Type type) => $"Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}";
+
+        /// <summary>
+        /// 将派生类按 <see cref="GetUniqueName(Type)"/> 分类。
+        /// </summary>
+        public static Dictionary<string, List<T>> ClassifyWithUniqueName<T>(T[] values)
+        {
+            FilterableClassifier<string, T> classifier = new((T value) => true, (T value) => GetUniqueName(value.GetType()));
+
+            return classifier.Classify(values);
         }
     }
 }

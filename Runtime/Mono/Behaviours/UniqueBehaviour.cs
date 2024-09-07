@@ -16,53 +16,38 @@ namespace FTGAMEStudio.InitialFramework
     /// </summary>
     public abstract class UniqueBehaviour : MonoBehaviour
     {
-        protected readonly struct UniqueInfo
-        {
-            public readonly string name;
-            public readonly int buildIndex;
-
-            public UniqueInfo(string name, int buildIndex = -1)
-            {
-                this.name = name;
-                this.buildIndex = buildIndex;
-            }
-        }
-
-
         /// <summary>
         /// 全局组件，它用于储存全局唯一的组件。
         /// </summary>
-        private static readonly Dictionary<UniqueInfo, UniqueBehaviour> globalComponents = new();
+        private static readonly Dictionary<string, UniqueBehaviour> globalComponents = new();
         /// <summary>
         /// 局部组件，它用于储存场景唯一的组件。
         /// </summary>
-        private static readonly Dictionary<UniqueInfo, UniqueBehaviour> localCompoents = new();
+        private static readonly Dictionary<string, UniqueBehaviour> localCompoents = new();
 
-
-        private static UniqueInfo GetUniqueName(UniqueBehaviour unique, int buildIndex = -1) =>
-            new(unique.GetType().GetUniqueName(), buildIndex);
 
 
         public static bool HasUnique(UniqueBehaviour unique, int buildIndex = -1)
         {
-            UniqueInfo uniqueName = GetUniqueName(unique, buildIndex);
+            string uniqueName = unique.GetType().GetUniqueName();
 
-            return uniqueName.buildIndex == -1 ? globalComponents.ContainsKey(uniqueName) : localCompoents.ContainsKey(uniqueName);
+            return buildIndex == -1 ? globalComponents.ContainsKey(uniqueName) : localCompoents.ContainsKey(uniqueName);
         }
+
 
 
         private static bool AddUnique(UniqueBehaviour unique, int buildIndex = -1)
         {
-            UniqueInfo uniqueName = GetUniqueName(unique, buildIndex);
+            string uniqueName = unique.GetType().GetUniqueName();
 
-            return uniqueName.buildIndex == -1 ? globalComponents.TryAdd(uniqueName, unique) : localCompoents.TryAdd(uniqueName, unique);
+            return buildIndex == -1 ? globalComponents.TryAdd(uniqueName, unique) : localCompoents.TryAdd(uniqueName, unique);
         }
 
         private static bool RemoveUnique(UniqueBehaviour unique, int buildIndex = -1)
         {
-            UniqueInfo uniqueName = GetUniqueName(unique, buildIndex);
+            string uniqueName = unique.GetType().GetUniqueName();
 
-            return uniqueName.buildIndex == -1 ? globalComponents.Remove(uniqueName) : localCompoents.Remove(uniqueName);
+            return buildIndex == -1 ? globalComponents.Remove(uniqueName) : localCompoents.Remove(uniqueName);
         }
 
 
@@ -70,6 +55,7 @@ namespace FTGAMEStudio.InitialFramework
         [SerializeField] private bool uniqueInAllScenes = true;
         [Tooltip("当此字段为 false 时，此游戏对象将 DontDestroyOnLoad(gameObject)")]
         [SerializeField] private bool destroyOnLoad = true;
+
 
         public bool UniqueInAllScenes { get => uniqueInAllScenes; }
         public bool DestroyOnLoad { get => destroyOnLoad; }
@@ -81,7 +67,7 @@ namespace FTGAMEStudio.InitialFramework
             if (!AddUnique(this, BuildIndex))
             {
                 enabled = false;
-                Debug.LogWarning($@"{GetUniqueName(this, BuildIndex)} is trying to instantiate repeatedly, but it's derived from UniqueBehaviour.", this);
+                Debug.LogWarning($@"{GetType().GetUniqueName()} is trying to instantiate repeatedly, but it's derived from UniqueBehaviour.", this);
 
                 return;
             }

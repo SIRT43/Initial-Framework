@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework.Time
+namespace FTGAMEStudio.InitialFramework
 {
     public enum Month : byte
     {

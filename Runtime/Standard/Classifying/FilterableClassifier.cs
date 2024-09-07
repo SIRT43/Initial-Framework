@@ -16,7 +16,7 @@ namespace FTGAMEStudio.InitialFramework.Classifying
         public event KeyGenerator<TKey, TValue> KeyGenerator;
 
         /// <summary>
-        /// 在此之前，您必须完善过滤。
+        /// 在此之前，您必须完善过滤器。
         /// </summary>
         public FilterableClassifier(ValueFilter<TValue> valueFilter, KeyGenerator<TKey, TValue> keyGenerator)
         {

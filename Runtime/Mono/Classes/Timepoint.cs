@@ -1,12 +1,28 @@
 using System;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Time
+namespace FTGAMEStudio.InitialFramework
 {
+    /// <summary>
+    /// 可序列化的日期时间表达方案。
+    /// 
+    /// <para>它可以与 <see cref="DateTime"/> 兼容。</para>
+    /// </summary>
     [Serializable]
     public struct Timepoint
     {
         public static bool IsLeapYear(int year) => ((year % 4) == 0 && (year % 100) != 0) || (year % 400) == 0;
+        public static bool IsLeapYear(Timepoint timepoint) => IsLeapYear(timepoint.year);
+
+
+        public static implicit operator Timepoint(DateTime dateTime) =>
+            new(dateTime.Year, (Month)dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+        public static implicit operator DateTime(Timepoint timepoint) =>
+            new(timepoint.Year, (int)timepoint.Month, timepoint.Day, timepoint.Hour, timepoint.Minute, timepoint.Second);
+
+
+        public static Timepoint Timestamp => new(1970, Month.January, 1, 0, 0, 0);
+
 
 
         [SerializeField, Min(1)] private int year;
@@ -31,6 +47,7 @@ namespace FTGAMEStudio.InitialFramework.Time
             readonly get => month;
             set => month = value;
         }
+
 
         public int Day
         {
@@ -86,18 +103,17 @@ namespace FTGAMEStudio.InitialFramework.Time
 
         public void ToggleMonth()
         {
-            Month = Month++;
+            Month++;
 
-            if (Month == Month.December)
-            {
-                ToggleYear();
-                Month = Month.January;
-            }
+            if (Month != Month.December) return;
+
+            ToggleYear();
+            Month = Month.January;
         }
 
         public void ToggleDay()
         {
-            day++;
+            Day++;
 
             bool toggleMonth = false;
 
@@ -110,50 +126,53 @@ namespace FTGAMEStudio.InitialFramework.Time
                 case Month.August:
                 case Month.October:
                 case Month.December:
-                    toggleMonth = day > 31;
+                    toggleMonth = Day > 31;
                     break;
                 case Month.April:
                 case Month.June:
                 case Month.September:
                 case Month.November:
-                    toggleMonth = day > 30;
+                    toggleMonth = Day > 30;
                     break;
                 case Month.February:
-                    toggleMonth = day > (LeapYear ? 29 : 28);
+                    toggleMonth = Day > (LeapYear ? 29 : 28);
                     break;
             }
 
-            if (toggleMonth) ToggleMonth();
+            if (!toggleMonth) return;
+
+            ToggleMonth();
+            Day = 1;
         }
 
         public void ToggleHour()
         {
-            hour++;
-            if (hour > 23)
-            {
-                ToggleDay();
-                hour = 0;
-            }
+            Hour++;
+
+            if (Hour < 23) return;
+
+            ToggleDay();
+            Hour = 0;
         }
 
         public void ToggleMinute()
         {
-            minute++;
-            if (minute > 59)
-            {
-                ToggleHour();
-                minute = 0;
-            }
+            Minute++;
+
+            if (Minute < 59) return;
+
+            ToggleHour();
+            Minute = 0;
         }
 
         public void ToggleSecond()
         {
-            second++;
-            if (second > 59)
-            {
-                ToggleMinute();
-                second = 0;
-            }
+            Second++;
+
+            if (Second < 59) return;
+
+            ToggleMinute();
+            Second = 0;
         }
 
 
@@ -166,14 +185,5 @@ namespace FTGAMEStudio.InitialFramework.Time
             Minute = minute;
             Second = second;
         }
-
-
-        public static Timepoint Standard => new(1, Month.January, 1, 0, 0, 0);
-
-
-        public static explicit operator Timepoint(DateTime dateTime) =>
-            new(dateTime.Year, (Month)dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
-        public static explicit operator DateTime(Timepoint timepoint) =>
-            new(timepoint.Year, (int)timepoint.Month, timepoint.Day, timepoint.Hour, timepoint.Minute, timepoint.Second);
     }
 }

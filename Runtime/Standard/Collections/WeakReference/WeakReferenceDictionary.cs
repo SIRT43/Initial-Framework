@@ -10,7 +10,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
     {
         new TValue this[TKey key] { get; set; }
 
-        new ICollection<TValue> Values { get; }
+        new TValue[] Values { get; }
 
         void Add(TKey key, TValue value);
 
@@ -32,38 +32,38 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
     /// </para>
     /// </summary>
     public class WeakReferenceDictionary<TKey, TValue> :
-        SecurityDictionary<TKey, WeakReference<TValue>>,
+        ValidDictionary<TKey, WeakReference<TValue>>,
         IWeakReferenceDictionary<TKey, TValue>
         where TValue : class
     {
         public new TValue this[TKey key]
         {
             get => GetTarget(key);
-            set => OverrideValue(key, new WeakReference<TValue>(value));
+            set => SetTarget(key, value);
         }
 
-        public new ICollection<TValue> Values
+        public new TValue[] Values
         {
             get
             {
                 List<TValue> values = new();
                 foreach (TKey key in Keys) values.Add(GetTarget(key));
 
-                return values;
+                return values.ToArray();
             }
         }
 
-        public virtual void Add(TKey key, TValue value) =>
-            AddSecurity(key, new WeakReference<TValue>(value));
 
+        public virtual void Add(TKey key, TValue value) => Add(key, new WeakReference<TValue>(value));
 
         public bool SetTarget(TKey key, TValue value)
         {
-            if (!GetSecurity(key, out WeakReference<TValue> weakReference)) return false;
+            if (!TryGetValue(key, out WeakReference<TValue> weakReference)) return false;
 
             weakReference.SetTarget(value);
             return true;
         }
+
 
         public bool ContainsValue(TValue value)
         {
@@ -75,28 +75,22 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
             return false;
         }
 
+
         /// <summary>
         /// 直接获取弱引用目标。
         /// 
-        /// <para>
-        /// 本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。
-        /// <br>另请参阅 <see cref="Examine(TKey)"/></br>
-        /// </para>
+        /// <para>本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。</para>
         /// </summary>
         public TValue GetTarget(TKey key)
         {
-            if (!Examine(key)) return null;
-
-            return base[key].GetTarget();
+            if (!TryGetTarget(key, out TValue target)) return null;
+            return target;
         }
 
         /// <summary>
         /// 尝试获取弱引用目标，返回 true 时则获取成功，返回 false 时则获取失败。
         /// 
-        /// <para>
-        /// 本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。
-        /// <br>另请参阅 <see cref="Examine(TKey)"/></br>
-        /// </para>
+        /// <para>本方法会先执行 Examine 方法，当 Examine 返回 false 时本方法会直接返回 null。</para>
         /// </summary>
         public bool TryGetTarget(TKey key, out TValue target)
         {
@@ -111,33 +105,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
         }
 
         /// <summary>
-        /// 检查指定的键值对。
-        /// 
-        /// <para>对于以下几种情况，本方法的解决方案是：
-        /// <br>访问的键不存在：返回 false。</br>
-        /// <br>访问的键存在但值为 null：移除键值对并返回 false。</br>
-        /// <br>访问的键存在但弱引用目标值为 null：移除键值对并返回 false。</br>
-        /// <br>访问的键存在且值与弱引用目标都存在：返回 true。</br></para>
-        /// </summary>
-        public override bool Examine(TKey key)
-        {
-            if (!base.Examine(key)) return false;
-
-            TValue result = base[key].GetTarget();
-
-            if (result == null)
-            {
-                Remove(key);
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// 刷新键值，移除无效项目。
-        /// 
-        /// <para>本方法基于 <see cref="Examine(TKey)"/> 方法。</para>
         /// </summary>
         public void Refresh()
         {

@@ -46,13 +46,14 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         public static bool VerifyMapTarget(object container, object instance) => VerifyMapTarget(container.GetType(), instance.GetType());
 
 
+
         /// <summary>  
         /// 验证容器是否可以与指定类型进行映射。
         /// </summary>
         public static bool VerifyMapping(Type container, Type instance)
         {
-            if (!VerifyMapTarget(container, instance)) return false;
             if (!IsMappable(instance)) return false;
+            if (!VerifyMapTarget(container, instance)) return false;
 
             return true;
         }

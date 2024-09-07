@@ -15,14 +15,19 @@ namespace FTGAMEStudio.InitialFramework
         public UnityEvent<bool> onBeforeToggle;
         public UnityEvent<bool> onAfterToggle;
 
-        public virtual bool Toggle()
+
+        public virtual void Toggle(bool value)
         {
             onBeforeToggle?.Invoke(value);
 
-            value = !value;
+            this.value = value;
 
             onAfterToggle?.Invoke(value);
+        }
 
+        public virtual bool Toggle()
+        {
+            Toggle(!value);
             return value;
         }
     }

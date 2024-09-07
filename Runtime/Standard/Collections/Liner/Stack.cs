@@ -9,7 +9,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Liner
     /// </summary>
     public class Stack<T> : LinerCollectionBase<T>
     {
-        protected override int OperateIndex => Count - 1;
+        public override int OperateIndex => Count - 1;
 
         /// <summary>
         /// 为栈指定使用的列表。

@@ -10,13 +10,14 @@ namespace FTGAMEStudio.InitialFramework.Traverse
         void Traverse();
     }
 
-    public interface ITraversable<TValue, TEnumerable, TTraverser> : ITraversable where TTraverser : Traverser<TValue, TEnumerable> where TEnumerable : IEnumerable<TValue>
+    public interface ITraversable<TTraverser, TEnumerable, TValue> : ITraversable where TTraverser : Traverser<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
     {
         TTraverser Traverser { get; set; }
     }
 
 
-    public interface ITraversable<TValue, TEnumerable> where TEnumerable : IEnumerable<TValue>
+
+    public interface ITraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
     {
         /// <summary>
         /// 遍历指定对象。
@@ -24,8 +25,7 @@ namespace FTGAMEStudio.InitialFramework.Traverse
         void Traverse(TEnumerable values);
     }
 
-
-    public interface IFlowTraversable<TValue, TEnumerable> : ITraversable<TValue, TEnumerable> where TEnumerable : IEnumerable<TValue>
+    public interface IFlowTraversable<TEnumerable, TValue> : ITraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
     {
         /// <summary>
         /// 当非法时，遍历者应该怎么做。

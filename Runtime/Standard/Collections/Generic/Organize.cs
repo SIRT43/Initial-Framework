@@ -7,7 +7,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 {
     /// <summary>
     /// 当您创建受管理的对象时，请继承本接口。
-    /// <br>另请参阅 <seealso cref="OrganizeBase{TDictionary, TValue}"/></br>
+    /// <br>另请参阅 <seealso cref="Organize{TValue, TTraverser}"/></br>
     /// </summary>
     public interface IOrganized
     {
@@ -30,8 +30,6 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 
         bool HasReg(Guid guid);
 
-        bool Override(T value);
-
         bool RemoveValue(Guid guid);
     }
 
@@ -43,15 +41,15 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     [Serializable]
     public class Organize<TValue, TTraverser> :
         IOrganizer<TValue>,
-        ITraversable<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>, TTraverser>
+        ITraversable<TTraverser, Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>
         where TValue : IOrganized
-        where TTraverser : Traverser<KeyValuePair<Guid, TValue>, Dictionary<Guid, TValue>>
+        where TTraverser : Traverser<Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>, new()
     {
         /// <summary>
         /// 注册表。
         /// <br>如果您没有特殊要求，请向本字典注册对象。</br>
         /// </summary>
-        [SerializeField] protected SecurityDictionary<Guid, TValue> registry;
+        [SerializeField] protected ValidDictionary<Guid, TValue> registry;
 
         public virtual int Count => registry.Count;
         public virtual bool IsEmpty => Count == 0;
@@ -62,7 +60,9 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         public virtual bool RegValue(TValue value)
         {
             if (HasReg(value.Guid)) return false;
-            return registry.AddSecurity(value.Guid, value);
+
+            registry.Add(value.Guid, value);
+            return true;
         }
 
         public virtual TValue GetValue(Guid guid)
@@ -73,15 +73,13 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
 
         public virtual bool TryGetValue(Guid guid, out TValue value)
         {
-            bool result = registry.GetSecurity(guid, out TValue val);
+            bool result = registry.TryGetValue(guid, out TValue val);
             value = val;
 
             return result;
         }
 
-        public virtual bool Override(TValue value) => registry.OverrideValue(value.Guid, value);
-
-        public virtual bool RemoveValue(Guid guid) => registry.RemoveSecurity(guid);
+        public virtual bool RemoveValue(Guid guid) => registry.Remove(guid);
 
         public virtual bool HasReg(Guid guid) => registry.Examine(guid);
 
@@ -93,11 +91,14 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         public virtual void Traverse() => Traverser.Traverse(registry);
 
 
-        public Organize(TTraverser traverser) : this(new(), traverser) { }
-        public Organize(SecurityDictionary<Guid, TValue> dictionary, TTraverser traverser)
+
+        public Organize(ValidDictionary<Guid, TValue> dictionary, TTraverser traverser)
         {
             registry = dictionary;
             Traverser = traverser;
         }
+        public Organize(ValidDictionary<Guid, TValue> dictionary) : this(dictionary, new()) { }
+        public Organize(TTraverser traverser) : this(new(), traverser) { }
+        public Organize() : this(new(), new()) { }
     }
 }

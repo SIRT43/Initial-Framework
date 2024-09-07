@@ -6,22 +6,24 @@ namespace FTGAMEStudio.InitialFramework.IO
     public interface IPath
     {
         /// <summary>
-        /// 文件名或文件夹名。
-        /// </summary>
-        string Name { get; }
-        /// <summary>
         /// 文件或文件夹所处的路径。
         /// </summary>
-        string BasePath { get; }
+        string BasePath { get; set; }
+        /// <summary>
+        /// 文件名或文件夹名。
+        /// </summary>
+        string Name { get; set; }
         /// <summary>
         /// 文件或文件夹的完整路径。
         /// </summary>
-        string FullPath { get; }
+        string FullPath { get; set; }
 
         bool Exists();
 
         bool Create();
         bool Delete();
+
+        bool Move(string newBasePath);
     }
 
     /// <summary>
@@ -34,14 +36,34 @@ namespace FTGAMEStudio.InitialFramework.IO
     {
         public static implicit operator string(PathBase path) => path.ToString();
 
-        public abstract string Name { get; }
-        public abstract string BasePath { get; }
-        public virtual string FullPath => Path.Combine(BasePath, Name);
+        /// <summary>
+        /// 获取路径指向的文件或文件夹名。
+        /// </summary>
+        public static string GetPathName(string path) => path[(Path.GetDirectoryName(path).Length + 1)..];
+
+
+
+        public abstract string BasePath { get; set; }
+        public abstract string Name { get; set; }
+
+        public virtual string FullPath
+        {
+            get => Path.Combine(BasePath, Name);
+            set
+            {
+                BasePath = Path.GetDirectoryName(value);
+                Name = GetPathName(value);
+            }
+        }
+
 
         public abstract bool Exists();
 
         public abstract bool Create();
         public abstract bool Delete();
+
+        public abstract bool Move(string newBasePath);
+
 
         public override string ToString() => FullPath;
     }

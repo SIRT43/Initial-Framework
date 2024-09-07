@@ -30,7 +30,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
     }
 
     /// <summary>  
-    /// MapperBase 是所有映射器类的基类，提供了映射操作的基本框架和属性。  
+    /// <see cref="MapperBase"/> 是所有映射器类的基类，提供了映射操作的基本框架和属性。  
     /// </summary>
     public abstract class MapperBase : IMapper
     {

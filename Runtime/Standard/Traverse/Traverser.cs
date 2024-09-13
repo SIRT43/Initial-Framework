@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FTGAMEStudio.InitialFramework.Traverse
+namespace InitialFramework.Traverse
 {
     public abstract class Traverser<TEnumerable, TValue> : IFlowTraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
     {

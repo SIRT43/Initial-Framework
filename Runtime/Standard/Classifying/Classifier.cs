@@ -1,7 +1,7 @@
-using FTGAMEStudio.InitialFramework.Traverse;
+using InitialFramework.Traverse;
 using System.Collections.Generic;
 
-namespace FTGAMEStudio.InitialFramework.Classifying
+namespace InitialFramework.Classifying
 {
     /// <summary>
     /// 可分类，用于将一组值分类到基于键的列表中。
@@ -36,7 +36,7 @@ namespace FTGAMEStudio.InitialFramework.Classifying
 
         public virtual Dictionary<TKey, List<TValue>> Classify(TValue[] values)
         {
-            Dictionary<TKey, List<TValue>>  classify = new();
+            Dictionary<TKey, List<TValue>> classify = new();
             this.classify = classify;
 
             Traverse(values);

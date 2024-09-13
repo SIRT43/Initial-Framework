@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFrameworkEditor
+namespace InitialFrameworkEditor
 {
     /// <summary>
     /// 编辑器工具，实现了更多相对于 EditorUtility 的扩展功能。
@@ -64,7 +64,7 @@ namespace FTGAMEStudio.InitialFrameworkEditor
             if (!string.IsNullOrEmpty(fileContent)) File.WriteAllText(path, fileContent);
 
             AssetDatabase.Refresh();
-             
+
             return AssetDatabase.LoadAssetAtPath<TextAsset>(path);
         }
 

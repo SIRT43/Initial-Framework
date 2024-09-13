@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Liner
+namespace InitialFramework.Collections.Liner
 {
-    [Serializable]
     public abstract class LinerCollectionBase<T> : ILinerCollection<T>, IEmptyableCollection, IClearable, IEnumerable<T>
     {
         [SerializeField] private readonly List<T> values;

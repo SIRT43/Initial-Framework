@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Generic
+namespace InitialFramework.Collections.Generic
 {
     public interface IValidDictionary<TKey, TValue>
     {

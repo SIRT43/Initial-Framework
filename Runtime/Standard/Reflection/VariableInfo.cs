@@ -1,8 +1,8 @@
-using FTGAMEStudio.InitialFramework.ExtensionMethods;
+using InitialFramework.ExtensionMethods;
 using System;
 using System.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.Reflection
+namespace InitialFramework.Reflection
 {
     public interface IVariableInfo<TMemberType> : IVariableInfo where TMemberType : MemberInfo
     {
@@ -35,7 +35,7 @@ namespace FTGAMEStudio.InitialFramework.Reflection
         {
             Original = memberType;
 
-            if(memberType is not FieldInfo or PropertyInfo) 
+            if (memberType is not FieldInfo or PropertyInfo)
                 throw new ArgumentException($"{memberType.GetType().GetUniqueName()} is not the expected type.", nameof(memberType));
         }
     }

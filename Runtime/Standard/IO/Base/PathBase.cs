@@ -1,7 +1,6 @@
-using System;
 using System.IO;
 
-namespace FTGAMEStudio.InitialFramework.IO
+namespace InitialFramework.IO
 {
     public interface IPath
     {
@@ -31,7 +30,6 @@ namespace FTGAMEStudio.InitialFramework.IO
     /// 
     /// <para>如果您不确定且需要指定文件或文件夹，请不要使用本类。</para>
     /// </summary>
-    [Serializable]
     public abstract class PathBase : IPath
     {
         public static implicit operator string(PathBase path) => path.ToString();

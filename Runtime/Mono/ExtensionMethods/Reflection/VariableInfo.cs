@@ -1,6 +1,6 @@
-using FTGAMEStudio.InitialFramework.Reflection;
+using InitialFramework.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.ExtensionMethods
+namespace InitialFramework.ExtensionMethods
 {
     public static class VariableInfoMethods
     {

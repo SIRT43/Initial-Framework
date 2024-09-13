@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework.IO
+namespace InitialFramework.IO
 {
     public interface IFileReference<T> where T : FileBase
     {

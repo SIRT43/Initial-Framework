@@ -1,9 +1,9 @@
-using FTGAMEStudio.InitialFramework.Classifying;
+using InitialFramework.Classifying;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.Reflection
+namespace InitialFramework.Reflection
 {
     public static class TypeUtilis
     {

@@ -1,7 +1,6 @@
-using System;
 using System.IO;
 
-namespace FTGAMEStudio.InitialFramework.IO
+namespace InitialFramework.IO
 {
     public interface IFile
     {
@@ -15,7 +14,6 @@ namespace FTGAMEStudio.InitialFramework.IO
     /// <summary>
     /// 文件基类，表示文件。
     /// </summary>
-    [Serializable]
     public abstract class FileBase : PathBase, IFile
     {
         public static implicit operator DirectoryInfo(FileBase file) => new(file.BasePath);

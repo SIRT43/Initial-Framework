@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework.Classifying
+namespace InitialFramework.Classifying
 {
     /// <summary>  
     /// π˝¬ÀπÊ‘Ú°£

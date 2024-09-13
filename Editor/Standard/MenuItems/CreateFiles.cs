@@ -1,7 +1,7 @@
 #if UNITY_EDITOR  
 using UnityEditor;
 
-namespace FTGAMEStudio.InitialFrameworkEditor.MenuItems
+namespace InitialFrameworkEditor.MenuItems
 {
     /// <summary>
     /// 为创建菜单添加更多文件类型。

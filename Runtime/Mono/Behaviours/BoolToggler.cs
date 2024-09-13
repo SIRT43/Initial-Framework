@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
-    /// <summary>  
-    /// 布尔值切换器，用于在on和off状态之间切换，并触发相关事件。  
-    /// </summary> 
+    /// <summary>
+    /// 布尔值切换器，用于在 true 和 false 状态之间切换，并触发相关事件。
+    /// </summary>
     [AddComponentMenu("Initial Framework/Bool Toggler")]
-    public class BoolToggler : MonoBehaviour
+    public class BoolToggler : MonoBehaviour, IToggler
     {
         public bool value = false;
 

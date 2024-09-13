@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.ObjectListener
+namespace InitialFramework.ObjectListener
 {
     /// <summary>
     /// 用于监听 <see cref="Collider"/> 的 <see cref="Rigidbody"/> 的通用基类。  

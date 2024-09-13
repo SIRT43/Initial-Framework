@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.ObjectListener
+namespace InitialFramework.ObjectListener
 {
     /// <summary>
     /// 用于监听 <see cref="Rigidbody"/> 上指定派生自 <see cref="Component"/> 的组件。

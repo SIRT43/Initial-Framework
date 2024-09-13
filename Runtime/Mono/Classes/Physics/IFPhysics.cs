@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     /// <summary>
     /// 本类基于 <see cref="Physics"/> 封装提供了更多方法。

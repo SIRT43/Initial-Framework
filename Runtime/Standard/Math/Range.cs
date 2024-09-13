@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     public interface IRange<T>
     {
@@ -12,7 +12,6 @@ namespace FTGAMEStudio.InitialFramework
     /// <summary>
     /// 范围基类，用于定义一个范围。
     /// </summary>
-    [Serializable]
     public abstract class Range<T> : IRange<T>
     {
         public T min;
@@ -28,6 +27,18 @@ namespace FTGAMEStudio.InitialFramework
         public abstract bool InRange(T v);
     }
 
+
+    /// <summary>
+    /// 创建一个 <see cref="int"/> 范围。
+    /// </summary>
+    [Serializable]
+    public class IntRange : Range<int>
+    {
+        public IntRange(int min, int max) : base(min, max) { }
+
+        public override int Clamp(int v) => Mathf.Clamp(v, min, max);
+        public override bool InRange(int v) => IFMath.InRange(v, min, max);
+    }
 
     /// <summary>
     /// 创建一个 <see cref="float"/> 范围。

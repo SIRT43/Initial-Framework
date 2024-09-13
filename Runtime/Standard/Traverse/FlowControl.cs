@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework.Traverse
+namespace InitialFramework.Traverse
 {
     /// <summary>  
     /// Á÷³Ì¿ØÖÆ¡£  

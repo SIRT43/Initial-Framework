@@ -1,16 +1,13 @@
-using FTGAMEStudio.InitialFramework.Traverse;
+using InitialFramework.Traverse;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Generic
+namespace InitialFramework.Collections.Generic
 {
     public interface IMetadataOrganizer
     {
         event Action<int, bool> OnMetadataCountChanged;
-
-        int MetadataCount { get; }
-        bool IsMetadataEmpty { get; }
 
         /// <summary>
         /// 注册元数据，值的 <see cref="Guid"/> 应该是唯一的。
@@ -31,9 +28,10 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     [Serializable]
     public class MetadataOrganize<TValue, TTraverser> :
         Organize<TValue, TTraverser>,
-        ITraversable<TTraverser, Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>
+        ITraversable<TTraverser, Dictionary<Guid, TValue>.ValueCollection, TValue>,
+        IEmptyableCollection
         where TValue : IOrganized
-        where TTraverser : Traverser<Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>, new()
+        where TTraverser : Traverser<Dictionary<Guid, TValue>.ValueCollection, TValue>, new()
     {
         /// <summary>
         /// 元数据。
@@ -41,8 +39,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// </summary>
         [SerializeField] protected Dictionary<Guid, TValue> metadata = new();
 
-        public int MetadataCount => metadata.Count;
-        public bool IsMetadataEmpty => MetadataCount == 0;
+        int IEmptyableCollection.Count => metadata.Count;
+        bool IEmptyableCollection.IsEmpty => (this as IEmptyableCollection).Count == 0;
 
         public event Action<int, bool> OnMetadataCountChanged;
 
@@ -52,7 +50,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
             if (HasRegMetadata(guid)) return false;
 
             metadata.Add(guid, GetValue(guid));
-            OnMetadataCountChanged?.Invoke(MetadataCount, IsMetadataEmpty);
+            OnMetadataCountChanged?.Invoke(metadata.Count, metadata.Count == 0);
 
             return true;
         }
@@ -62,7 +60,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
             if (!HasRegMetadata(guid)) return false;
 
             metadata.Remove(guid);
-            OnMetadataCountChanged?.Invoke(MetadataCount, IsMetadataEmpty);
+            OnMetadataCountChanged?.Invoke(metadata.Count, metadata.Count == 0);
 
             return true;
         }
@@ -73,8 +71,8 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// 通过元数据遍历此组织。
         /// 
         /// <para>另请参阅 <seealso cref="Traverser{TValue, TEnumerable}"/></para>
-        /// </summary>
-        public override void Traverse() => Traverser.Traverse(metadata);
+        /// </summary> 
+        public override void Traverse() => Traverser.Traverse(metadata.Values);
 
         public override bool RemoveValue(Guid guid)
         {

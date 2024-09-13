@@ -1,11 +1,14 @@
 using System;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
-    public interface IRandomable<T> : IRange<T>
+    [Serializable]
+    public class IntRandom : IntRange, IRandomable<int>
     {
-        T Range();
+        public IntRandom(int min, int max) : base(min, max) { }
+
+        public int Range() => UnityEngine.Random.Range(min, max);
     }
 
     [Serializable]

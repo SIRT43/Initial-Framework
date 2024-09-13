@@ -1,8 +1,8 @@
-using FTGAMEStudio.InitialFramework.Reflection;
+using InitialFramework.Reflection;
 using System;
 using System.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.ExtensionMethods
+namespace InitialFramework.ExtensionMethods
 {
     public static class TypeMethods
     {

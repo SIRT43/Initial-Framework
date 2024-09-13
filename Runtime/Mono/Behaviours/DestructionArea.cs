@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     public interface IDestructionHandler
     {

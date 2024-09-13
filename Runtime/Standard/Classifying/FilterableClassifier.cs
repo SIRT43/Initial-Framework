@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework.Classifying
+namespace InitialFramework.Classifying
 {
     /// <summary>    
     /// 可过滤分类器，它使用提供的委托来过滤和分类值。

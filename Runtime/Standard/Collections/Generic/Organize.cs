@@ -1,9 +1,9 @@
-using FTGAMEStudio.InitialFramework.Traverse;
+using InitialFramework.Traverse;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Generic
+namespace InitialFramework.Collections.Generic
 {
     /// <summary>
     /// 当您创建受管理的对象时，请继承本接口。
@@ -41,9 +41,9 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
     [Serializable]
     public class Organize<TValue, TTraverser> :
         IOrganizer<TValue>,
-        ITraversable<TTraverser, Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>
+        ITraversable<TTraverser, Dictionary<Guid, TValue>.ValueCollection, TValue>
         where TValue : IOrganized
-        where TTraverser : Traverser<Dictionary<Guid, TValue>, KeyValuePair<Guid, TValue>>, new()
+        where TTraverser : Traverser<Dictionary<Guid, TValue>.ValueCollection, TValue>, new()
     {
         /// <summary>
         /// 注册表。
@@ -88,7 +88,7 @@ namespace FTGAMEStudio.InitialFramework.Collections.Generic
         /// 
         /// <para>另请参阅 <seealso cref="Traverser{TValue, TEnumerable}"/>。</para>
         /// </summary>
-        public virtual void Traverse() => Traverser.Traverse(registry);
+        public virtual void Traverse() => Traverser.Traverse(registry.Values);
 
 
 

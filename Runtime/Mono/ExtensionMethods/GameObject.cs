@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.ExtensionMethods
+namespace InitialFramework.ExtensionMethods
 {
     public static class GameObjectMethods
     {

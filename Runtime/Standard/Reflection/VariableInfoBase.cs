@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.Reflection
+namespace InitialFramework.Reflection
 {
     public interface IVariableInfo
     {

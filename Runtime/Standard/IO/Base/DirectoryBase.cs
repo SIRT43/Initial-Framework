@@ -1,12 +1,10 @@
-using System;
 using System.IO;
 
-namespace FTGAMEStudio.InitialFramework.IO
+namespace InitialFramework.IO
 {
     /// <summary>
     /// 目录基类，表示文件夹。
     /// </summary>
-    [Serializable]
     public abstract class DirectoryBase : PathBase
     {
         public static implicit operator DirectoryInfo(DirectoryBase directory) => new(directory);

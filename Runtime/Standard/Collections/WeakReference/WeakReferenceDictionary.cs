@@ -1,10 +1,10 @@
-using FTGAMEStudio.InitialFramework.Collections.Generic;
-using FTGAMEStudio.InitialFramework.ExtensionMethods;
+using InitialFramework.Collections.Generic;
+using InitialFramework.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
+namespace InitialFramework.Collections.WeakReference
 {
     public interface IWeakReferenceDictionary<TKey, TValue> : IDictionary<TKey, WeakReference<TValue>>, IRefreshable where TValue : class
     {

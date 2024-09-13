@@ -1,6 +1,6 @@
 using System;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     public interface IStatusable<T> where T : Enum
     {

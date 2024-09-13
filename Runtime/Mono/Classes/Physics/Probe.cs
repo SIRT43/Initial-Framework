@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     /// <summary>
     /// ̽�롣

@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework.IO
+namespace InitialFramework.IO
 {
     /// <summary>
     /// 常用的文件扩展名。

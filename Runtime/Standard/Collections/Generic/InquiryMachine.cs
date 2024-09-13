@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Generic
+namespace InitialFramework.Collections.Generic
 {
     public interface IInquiryable<TKey, TValue>
     {

@@ -1,9 +1,9 @@
-using FTGAMEStudio.InitialFramework.ExtensionMethods;
+using InitialFramework.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.Reflection
+namespace InitialFramework.Reflection
 {
     /// <summary>
     /// 基于反射实现的变量成员映射。

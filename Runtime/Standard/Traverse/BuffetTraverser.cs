@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FTGAMEStudio.InitialFramework.Traverse
+namespace InitialFramework.Traverse
 {
     /// <summary>
     /// 自助遍历器，基于委托事件处理方法事件。

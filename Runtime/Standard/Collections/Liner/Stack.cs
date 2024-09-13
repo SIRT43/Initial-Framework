@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Liner
+namespace InitialFramework.Collections.Liner
 {
     [Serializable]
     /// <summary>

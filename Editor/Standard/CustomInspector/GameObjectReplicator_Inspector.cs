@@ -1,9 +1,9 @@
 #if UNITY_EDITOR
-using FTGAMEStudio.InitialFramework.Replicator;
+using InitialFramework.Replicator;
 using UnityEditor;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFrameworkEditor.CustomInspector
+namespace InitialFrameworkEditor.CustomInspector
 {
     [CustomEditor(typeof(GameObjectReplicator))]
     public class GameObjectReplicator_Inspector : Editor

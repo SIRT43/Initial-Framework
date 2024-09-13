@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Timers;
 
-namespace FTGAMEStudio.InitialFramework.Collections.WeakReference
+namespace InitialFramework.Collections.WeakReference
 {
     /// <summary>
     /// ÈõÒýÓÃ×Öµä¡£

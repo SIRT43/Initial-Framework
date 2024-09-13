@@ -1,6 +1,6 @@
 using System;
 
-namespace FTGAMEStudio.InitialFramework.ExtensionMethods
+namespace InitialFramework.ExtensionMethods
 {
     /// <summary>
     /// 对 <see cref="WeakReference"/> 的扩展方法。

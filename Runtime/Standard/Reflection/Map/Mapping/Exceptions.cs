@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace FTGAMEStudio.InitialFramework.Reflection
+namespace InitialFramework.Reflection
 {
     public class InvalidContainerException : ArgumentException
     {

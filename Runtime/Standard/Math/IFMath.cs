@@ -1,9 +1,21 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     public static class IFMath
     {
+        public static int Multiply(int original, params int[] values)
+        {
+            for (int index = 0; index < values.Length; index++) original *= values[index];
+            return original;
+        }
+
+        public static int Division(int original, params int[] values)
+        {
+            for (int index = 0; index < values.Length; index++) original /= values[index];
+            return original;
+        }
+        
         public static float Multiply(float original, params float[] values)
         {
             for (int index = 0; index < values.Length; index++) original *= values[index];
@@ -33,8 +45,8 @@ namespace FTGAMEStudio.InitialFramework
 
         public static float ClampMin(float v, float min) => v < min ? min : v;
         public static float ClampMax(float v, float max) => v > max ? max : v;
-        
-        
+
+
         public static int ClampMin(int v, int min) => v < min ? min : v;
         public static int ClampMax(int v, int max) => v > max ? max : v;
 
@@ -54,6 +66,9 @@ namespace FTGAMEStudio.InitialFramework
 
 
 
+        public static bool InRange(int v, int min, int max) =>
+            v > min && v < max;
+        
         public static bool InRange(float v, float min, float max) =>
             v > min && v < max;
 
@@ -65,6 +80,8 @@ namespace FTGAMEStudio.InitialFramework
 
 
 
+        public static bool IsNegative(int v) => v < 0;
+        
         public static bool IsNegative(float v) => v < 0;
 
 

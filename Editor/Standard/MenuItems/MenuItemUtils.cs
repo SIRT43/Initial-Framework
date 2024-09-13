@@ -3,7 +3,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFrameworkEditor.MenuItems
+namespace InitialFrameworkEditor.MenuItems
 {
     /// <summary>
     /// 菜单物品工具，实现了对 MenuItem 特性的便捷工具。

@@ -1,4 +1,4 @@
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     public enum VariableType
     {

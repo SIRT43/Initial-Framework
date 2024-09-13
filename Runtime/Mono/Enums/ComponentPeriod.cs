@@ -1,6 +1,6 @@
 using System;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     /// <summary>  
     /// 表示单个生命周期方法，这些方法是游戏对象或组件在其生命周期中只执行一次的。  

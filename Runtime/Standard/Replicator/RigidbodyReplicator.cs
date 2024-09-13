@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Replicator
+namespace InitialFramework.Replicator
 {
     [AddComponentMenu("Initial Framework/Replicator/Rigidbody Replicator")]
     public class RigidbodyReplicator : RequireReplicator<Rigidbody>

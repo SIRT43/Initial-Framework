@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FTGAMEStudio.InitialFramework.Collections.Liner
+namespace InitialFramework.Collections.Liner
 {
     /// <summary>
     /// 队列，实现了队列行为的集合。

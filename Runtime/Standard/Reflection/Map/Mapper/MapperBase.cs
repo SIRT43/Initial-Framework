@@ -1,8 +1,8 @@
-using FTGAMEStudio.InitialFramework.ExtensionMethods;
+using InitialFramework.ExtensionMethods;
 using System;
 using System.Reflection;
 
-namespace FTGAMEStudio.InitialFramework.Reflection
+namespace InitialFramework.Reflection
 {
     /// <summary>  
     /// 本接口定义了映射器的基本结构和功能，用于映射属性或字段。  

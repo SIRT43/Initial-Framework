@@ -1,9 +1,9 @@
-using FTGAMEStudio.InitialFramework.ExtensionMethods;
+using InitialFramework.ExtensionMethods;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace FTGAMEStudio.InitialFramework
+namespace InitialFramework
 {
     /// <summary>
     /// Î¨Ò»ÐÐÎª¡£

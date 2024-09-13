@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FTGAMEStudio.InitialFramework.Replicator
+namespace InitialFramework.Replicator
 {
     public interface IGameObjectReplicator
     {

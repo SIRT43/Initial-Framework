@@ -1,5 +1,6 @@
 using InitialFramework.Traverse;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,7 +40,7 @@ namespace InitialFramework.Collections.Generic
     /// <para>ÁíÇë²ÎÔÄ <seealso cref="IOrganized"/>£¬<seealso cref="IOrganizer{T}"/></para>
     /// </summary>
     [Serializable]
-    public class Organize<TValue> : IOrganizer<TValue>, ITraversable where TValue : IOrganized
+    public class Organize<TValue> : IOrganizer<TValue>, IEnumerable<KeyValuePair<Guid, TValue>>, ITraversable where TValue : IOrganized
     {
         /// <summary>
         /// ×¢²á±í¡£
@@ -86,6 +87,9 @@ namespace InitialFramework.Collections.Generic
 
         protected virtual void OnTraverse(TValue value) { }
 
+
+        public IEnumerator<KeyValuePair<Guid, TValue>> GetEnumerator() => registry.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => registry.GetEnumerator();
 
 
         public Organize(ValidDictionary<Guid, TValue> dictionary) => registry = dictionary;

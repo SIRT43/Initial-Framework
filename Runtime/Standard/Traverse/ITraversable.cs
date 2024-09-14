@@ -10,22 +10,22 @@ namespace InitialFramework.Traverse
         void Traverse();
     }
 
-    public interface ITraversable<TTraverser, TEnumerable, TValue> : ITraversable where TTraverser : Traverser<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
+    public interface ITraversable<TTraverser, TValue> : ITraversable where TTraverser : Traverser<TValue>
     {
         TTraverser Traverser { get; set; }
     }
 
 
 
-    public interface ITraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
+    public interface ITraversable<TValue>
     {
         /// <summary>
         /// 遍历指定对象。
         /// </summary>
-        void Traverse(TEnumerable values);
+        void Traverse(IEnumerable<TValue> values);
     }
 
-    public interface IFlowTraversable<TEnumerable, TValue> : ITraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
+    public interface IFlowTraversable<TValue> : ITraversable<TValue>
     {
         /// <summary>
         /// 当非法时，遍历者应该怎么做。

@@ -1,6 +1,5 @@
 using InitialFramework.Traverse;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace InitialFramework.Collections.Generic
@@ -41,9 +40,9 @@ namespace InitialFramework.Collections.Generic
     [Serializable]
     public class Organize<TValue, TTraverser> :
         IOrganizer<TValue>,
-        ITraversable<TTraverser, Dictionary<Guid, TValue>.ValueCollection, TValue>
+        ITraversable<TTraverser, TValue>
         where TValue : IOrganized
-        where TTraverser : Traverser<Dictionary<Guid, TValue>.ValueCollection, TValue>, new()
+        where TTraverser : Traverser<TValue>, new()
     {
         /// <summary>
         /// ×¢²á±í¡£

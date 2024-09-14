@@ -15,7 +15,7 @@ namespace InitialFramework
             for (int index = 0; index < values.Length; index++) original /= values[index];
             return original;
         }
-        
+
         public static float Multiply(float original, params float[] values)
         {
             for (int index = 0; index < values.Length; index++) original *= values[index];
@@ -68,7 +68,7 @@ namespace InitialFramework
 
         public static bool InRange(int v, int min, int max) =>
             v > min && v < max;
-        
+
         public static bool InRange(float v, float min, float max) =>
             v > min && v < max;
 
@@ -81,7 +81,7 @@ namespace InitialFramework
 
 
         public static bool IsNegative(int v) => v < 0;
-        
+
         public static bool IsNegative(float v) => v < 0;
 
 

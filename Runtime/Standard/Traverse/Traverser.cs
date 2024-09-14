@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace InitialFramework.Traverse
 {
-    public abstract class Traverser<TEnumerable, TValue> : IFlowTraversable<TEnumerable, TValue> where TEnumerable : IEnumerable<TValue>
+    public abstract class Traverser<TValue> : IFlowTraversable<TValue>
     {
         public virtual FlowControl NonFlowControl { get; }
 
@@ -10,7 +10,7 @@ namespace InitialFramework.Traverse
         protected Traverser(FlowControl nonFlowControl) => NonFlowControl = nonFlowControl;
 
 
-        public virtual void Traverse(TEnumerable values)
+        public virtual void Traverse(IEnumerable<TValue> values)
         {
             BeforeTraverse(values);
 
@@ -52,13 +52,13 @@ namespace InitialFramework.Traverse
         /// <summary>
         /// 当遍历开始前调用此方法。
         /// </summary>
-        protected virtual void BeforeTraverse(TEnumerable values) { }
+        protected virtual void BeforeTraverse(IEnumerable<TValue> values) { }
         /// <summary>
         /// 当遍历结束后将调用此方法。
         ///         
         /// <para>请注意，本方法也将在 <see cref="NonFlowControl"/> 为 <see cref="FlowControl.Return"/> 时调用。</para>
         /// </summary>
-        protected virtual void AfterTraverse(TEnumerable values) { }
+        protected virtual void AfterTraverse(IEnumerable<TValue> values) { }
 
         /// <summary>  
         /// 在遍历过程中，对每一个通过 <see cref="IsCanonical(TValue)"/> 校验的合法值执行操作。  

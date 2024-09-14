@@ -53,7 +53,7 @@ namespace InitialFramework
         /// </summary>
         December
     }
-    
+
     [Flags]
     public enum MonthFlags
     {

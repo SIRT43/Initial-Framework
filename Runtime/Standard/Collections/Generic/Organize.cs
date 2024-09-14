@@ -1,12 +1,13 @@
 using InitialFramework.Traverse;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace InitialFramework.Collections.Generic
 {
     /// <summary>
     /// 当您创建受管理的对象时，请继承本接口。
-    /// <br>另请参阅 <seealso cref="Organize{TValue, TTraverser}"/></br>
+    /// <br>另请参阅 <seealso cref="Organize{TValue}"/></br>
     /// </summary>
     public interface IOrganized
     {
@@ -38,11 +39,7 @@ namespace InitialFramework.Collections.Generic
     /// <para>另请参阅 <seealso cref="IOrganized"/>，<seealso cref="IOrganizer{T}"/></para>
     /// </summary>
     [Serializable]
-    public class Organize<TValue, TTraverser> :
-        IOrganizer<TValue>,
-        ITraversable<TTraverser, TValue>
-        where TValue : IOrganized
-        where TTraverser : Traverser<TValue>, new()
+    public class Organize<TValue> : IOrganizer<TValue>, ITraversable where TValue : IOrganized
     {
         /// <summary>
         /// 注册表。
@@ -52,8 +49,6 @@ namespace InitialFramework.Collections.Generic
 
         public virtual int Count => registry.Count;
         public virtual bool IsEmpty => Count == 0;
-
-        public TTraverser Traverser { get; set; }
 
 
         public virtual bool RegValue(TValue value)
@@ -82,22 +77,18 @@ namespace InitialFramework.Collections.Generic
 
         public virtual bool HasReg(Guid guid) => registry.Examine(guid);
 
-        /// <summary>
-        /// 遍历此组织。
-        /// 
-        /// <para>另请参阅 <seealso cref="Traverser{TValue, TEnumerable}"/>。</para>
-        /// </summary>
-        public virtual void Traverse() => Traverser.Traverse(registry.Values);
 
-
-
-        public Organize(ValidDictionary<Guid, TValue> dictionary, TTraverser traverser)
+        public virtual void Traverse()
         {
-            registry = dictionary;
-            Traverser = traverser;
+            List<Guid> guids = new(registry.Keys);
+            foreach (Guid guid in guids) OnTraverse(registry[guid]);
         }
-        public Organize(ValidDictionary<Guid, TValue> dictionary) : this(dictionary, new()) { }
-        public Organize(TTraverser traverser) : this(new(), traverser) { }
-        public Organize() : this(new(), new()) { }
+
+        protected virtual void OnTraverse(TValue value) { }
+
+
+
+        public Organize(ValidDictionary<Guid, TValue> dictionary) => registry = dictionary;
+        public Organize() : this(new()) { }
     }
 }

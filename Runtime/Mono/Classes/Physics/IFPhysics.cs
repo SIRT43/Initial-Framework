@@ -7,6 +7,14 @@ namespace InitialFramework
     /// </summary>
     public static class IFPhysics
     {
+        /// <summary>
+        /// 对 <see cref="Detection"/> 的 density 进行补偿。
+        /// <br>当不进行补偿时，density 通常需要输入比补偿后大 100 倍到 500 倍的值。</br>
+        /// </summary>
+        public const float DENSITY_COMPENSATION_FACTOR = 500;
+
+
+
         /// <summary>  
         /// 向指定方向投射探针，探测不发生碰撞的最远位置及其距离（位置是探针的圆心，距离是位置到原点）。  
         ///   
@@ -22,10 +30,11 @@ namespace InitialFramework
             if (!Physics.SphereCast((Ray)probe, probe.radius, out RaycastHit hitInfo, maxDistance, targetLayer))
                 return new(probe, maxDistance);
 
-            Vector3 original = IFMath.MoveTo(probe.original, probe.direction, hitInfo.distance * inference);
+            Vector3 original = probe.GetPosition(hitInfo.distance * inference);
 
-            float testPosCount = maxDistance / (probe.radius * density);
-            float singleDistance = maxDistance / testPosCount;
+            float singleDistance = maxDistance / (density * DENSITY_COMPENSATION_FACTOR / probe.radius);
+
+            Debug.Log($"{singleDistance}, {singleDistance}");
 
             Vector3 noCollision = FindNoCollisionPosition(original, probe.direction, probe.radius, singleDistance, maxDistance, targetLayer);
 
@@ -100,13 +109,15 @@ namespace InitialFramework
         {
             Vector3 noCollision = original;
 
-            for (float currentDistance = singleDistance; currentDistance < maxDistance; currentDistance += singleDistance)
+            for (float currentDistance = 0; currentDistance < maxDistance; currentDistance += singleDistance)
             {
                 Vector3 testPosition = IFMath.MoveTo(original, direction, currentDistance);
 
                 if (!Physics.CheckSphere(testPosition, radius, targetLayer)) noCollision = testPosition;
                 else break;
             }
+
+            Debug.DrawLine(original, noCollision, Color.red);
 
             return noCollision;
         }

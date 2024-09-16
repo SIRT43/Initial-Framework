@@ -13,7 +13,7 @@ namespace InitialFramework.Classifying
         /// <summary>
         /// 将一组值分类到基于键的列表中。
         /// </summary>
-        Dictionary<TKey, List<TValue>> Classify(TValue[] values);
+        Dictionary<TKey, List<TValue>> Classify(IEnumerable<TValue> values);
 
         /// <summary>  
         /// 为指定值生成一个键。  
@@ -34,7 +34,7 @@ namespace InitialFramework.Classifying
         protected Classifier() : base(FlowControl.Continue) { }
 
 
-        public virtual Dictionary<TKey, List<TValue>> Classify(TValue[] values)
+        public virtual Dictionary<TKey, List<TValue>> Classify(IEnumerable<TValue> values)
         {
             Dictionary<TKey, List<TValue>> classify = new();
             this.classify = classify;

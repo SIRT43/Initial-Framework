@@ -10,7 +10,7 @@ namespace InitialFramework.Reflection
     {
         public VariableMapper(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(bindingAttr) { }
 
-        protected override void TryMap<T>(object container, ref T instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
+        protected override void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
             instanceVariable.SetValue(instance, container, containerVariable);
     }
 
@@ -21,7 +21,7 @@ namespace InitialFramework.Reflection
     {
         public ReverseVariableMapper(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(bindingAttr) { }
 
-        protected override void TryMap<T>(object container, ref T instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
+        protected override void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
             containerVariable.SetValue(container, instance, instanceVariable);
     }
 }

@@ -137,6 +137,7 @@ namespace InitialFramework.IO
         go,
         kotlin,
         dart,
-        ico
+        ico,
+        tdl
     }
 }

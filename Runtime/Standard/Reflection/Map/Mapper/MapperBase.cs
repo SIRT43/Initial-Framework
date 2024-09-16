@@ -1,5 +1,7 @@
 using InitialFramework.ExtensionMethods;
+using InitialFramework.Traverse;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace InitialFramework.Reflection
@@ -9,11 +11,6 @@ namespace InitialFramework.Reflection
     /// </summary>
     public interface IMapper
     {
-        /// <summary>
-        /// 应该以怎样的特征查询成员。
-        /// </summary>
-        BindingFlags BindingAttr { get; set; }
-
         bool IsMappable(MemberInfo memberInfo);
         bool IsMappable(VariableInfo variableInfo);
 
@@ -26,15 +23,25 @@ namespace InitialFramework.Reflection
         /// </summary>
         bool VerifyMapping(Type container, Type instance);
 
-        bool Map<T>(object container, ref T instance);
+        bool Map(object container, object instance);
     }
 
     /// <summary>  
     /// <see cref="MapperBase"/> 是所有映射器类的基类，提供了映射操作的基本框架和属性。  
     /// </summary>
-    public abstract class MapperBase : IMapper
+    public abstract class MapperBase : Traverser<KeyValuePair<VariableInfo, VariableInfo>>, IMapper
     {
-        public virtual BindingFlags BindingAttr { get; set; }
+        public virtual BindingFlags BindingAttr { get; }
+
+        private object container;
+        private object instance;
+
+
+
+        protected MapperBase(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(FlowControl.Continue)
+            => BindingAttr = bindingAttr;
+
+
 
         public virtual bool IsMappable(MemberInfo memberInfo) => Mapping.IsMappable(memberInfo);
         public virtual bool IsMappable(VariableInfo variableInfo) => Mapping.IsMappable(variableInfo);
@@ -43,34 +50,35 @@ namespace InitialFramework.Reflection
         public virtual bool VerifyMapping(Type container, Type instance) => Mapping.VerifyMapping(container, instance);
 
 
-        public virtual bool Map<T>(object container, ref T instance)
+        public virtual bool Map(object container, object instance)
         {
+            this.container = container;
+            this.instance = instance;
+
             Type containerType = container.GetType();
             Type instanceType = instance.GetType();
 
             if (!VerifyMapping(containerType, instanceType)) return false;
 
+            Dictionary<VariableInfo, VariableInfo> mapPairs = new();
+
             foreach (VariableInfo containerVariable in containerType.GetVariables(BindingAttr))
-            {
-                if (!IsMappable(containerVariable)) continue;
+                mapPairs.Add(containerVariable, instanceType.GetVariable(containerVariable.Name, containerVariable.ValueType, BindingAttr));
 
-                VariableInfo instanceVariable =
-                    instanceType.GetVariable(containerVariable.Name, containerVariable.ValueType, BindingAttr)
-                    ??
-                    throw new MissingFieldException($"The Type {containerType} member '{containerVariable.Name}' could not be found in the Type {instanceType}.");
+            Traverse(mapPairs);
 
-                if (!IsMappable(instanceType)) continue;
-
-                TryMap(container, ref instance, containerVariable, instanceVariable);
-            }
+            this.container = null;
+            this.instance = null;
 
             return true;
         }
 
-        protected abstract void TryMap<T>(object container, ref T instance, VariableInfo containerVariable, VariableInfo instanceVariable);
+        public override bool IsCanonical(KeyValuePair<VariableInfo, VariableInfo> value) =>
+            value.Value != null ? IsMappable(value.Key) && IsMappable(value.Value) :
+            throw new MissingFieldException($"The member '{value.Key.Name}' could not be found in the instance.");
 
+        protected override void OnTraverse(KeyValuePair<VariableInfo, VariableInfo> value) => TryMap(container, instance, value.Value, value.Key);
 
-
-        protected MapperBase(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) => BindingAttr = bindingAttr;
+        protected abstract void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable);
     }
 }

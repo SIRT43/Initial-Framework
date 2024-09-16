@@ -80,8 +80,11 @@ namespace InitialFramework
 
 
 
-        public static bool IsNegative(int v) => v < 0;
+        public static bool SubBit(int a, int b) => (a & b) == b;
 
+
+
+        public static bool IsNegative(int v) => v < 0;
         public static bool IsNegative(float v) => v < 0;
 
 

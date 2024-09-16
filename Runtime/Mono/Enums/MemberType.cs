@@ -9,7 +9,7 @@ namespace InitialFramework
         Method,
         Variable,
     }
-    
+
     [Flags]
     public enum MemberTypeFlags
     {

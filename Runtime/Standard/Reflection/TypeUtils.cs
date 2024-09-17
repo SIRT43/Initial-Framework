@@ -10,7 +10,7 @@ namespace InitialFramework.Reflection
         /// <summary>
         /// 获取字段，但该字段的值类型应该是指定的类型。
         /// </summary>
-        public static FieldInfo GetField(Type type, string name, Type fieldType, BindingFlags bindingAttr = BindingFlags.Default)
+        public static FieldInfo GetField(this Type type, string name, Type fieldType, BindingFlags bindingAttr = BindingFlags.Default)
         {
             FieldInfo fieldInfo = type.GetField(name, bindingAttr);
 
@@ -23,7 +23,7 @@ namespace InitialFramework.Reflection
         /// <summary>
         /// 获取属性，但该属性的值类型应该是指定的类型。
         /// </summary>
-        public static PropertyInfo GetProperty(Type type, string name, Type propertyType, BindingFlags bindingAttr = BindingFlags.Default)
+        public static PropertyInfo GetProperty(this Type type, string name, Type propertyType, BindingFlags bindingAttr = BindingFlags.Default)
         {
             PropertyInfo propertyInfo = type.GetProperty(name, bindingAttr);
 
@@ -37,7 +37,7 @@ namespace InitialFramework.Reflection
         /// 获取变量。
         /// <br>变量是对字段与属性的封装，它支持表达字段，也支持表达属性。</br>
         /// </summary>
-        public static VariableInfo GetVariable(Type type, string name, BindingFlags bindingAttr = BindingFlags.Default)
+        public static VariableInfo GetVariable(this Type type, string name, BindingFlags bindingAttr = BindingFlags.Default)
         {
             if (type.GetField(name, bindingAttr) is FieldInfo fieldInfo) return fieldInfo;
             else if (type.GetProperty(name, bindingAttr) is PropertyInfo propertyInfo) return propertyInfo;
@@ -48,7 +48,7 @@ namespace InitialFramework.Reflection
         /// <summary>
         /// 获取变量，但该变量的值类型应该是指定的类型。
         /// </summary>
-        public static VariableInfo GetVariable(Type type, string name, Type valueType, BindingFlags bindingAttr = BindingFlags.Default)
+        public static VariableInfo GetVariable(this Type type, string name, Type valueType, BindingFlags bindingAttr = BindingFlags.Default)
         {
             VariableInfo variableInfo = GetVariable(type, name, bindingAttr);
 
@@ -64,7 +64,7 @@ namespace InitialFramework.Reflection
         /// 
         /// <para>此方法将返回 <see cref="Type.GetFields"/> 与 <see cref="Type.GetProperties"/> 的合并数组。</para>
         /// </summary>
-        public static VariableInfo[] GetVariables(Type type, BindingFlags bindingAttr = BindingFlags.Default)
+        public static VariableInfo[] GetVariables(this Type type, BindingFlags bindingAttr = BindingFlags.Default)
         {
             FieldInfo[] fieldInfos = type.GetFields(bindingAttr);
             PropertyInfo[] propertyInfos = type.GetProperties(bindingAttr);
@@ -82,7 +82,7 @@ namespace InitialFramework.Reflection
         /// <summary>
         /// 获取唯一名称，本方法将返回 "Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}" 格式的字符串。
         /// </summary>
-        public static string GetUniqueName(Type type) => $"Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}";
+        public static string GetUniqueName(this Type type) => $"Assembly: {type.AssemblyQualifiedName} FullName: {type.FullName}";
 
         /// <summary>
         /// 将派生类按 <see cref="GetUniqueName(Type)"/> 分类。

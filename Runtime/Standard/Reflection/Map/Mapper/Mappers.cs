@@ -1,4 +1,3 @@
-using InitialFramework.ExtensionMethods;
 using System.Reflection;
 
 namespace InitialFramework.Reflection
@@ -11,7 +10,7 @@ namespace InitialFramework.Reflection
         public VariableMapper(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(bindingAttr) { }
 
         protected override void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
-            instanceVariable.SetValue(instance, container, containerVariable);
+            instanceVariable.SetValue(instance, containerVariable.GetValue(container));
     }
 
     /// <summary>  
@@ -22,6 +21,6 @@ namespace InitialFramework.Reflection
         public ReverseVariableMapper(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(bindingAttr) { }
 
         protected override void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
-            containerVariable.SetValue(container, instance, instanceVariable);
+            containerVariable.SetValue(container, instanceVariable.GetValue(instance));
     }
 }

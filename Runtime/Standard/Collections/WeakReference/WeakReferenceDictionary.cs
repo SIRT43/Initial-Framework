@@ -1,5 +1,4 @@
 using InitialFramework.Collections.Generic;
-using InitialFramework.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -94,9 +93,9 @@ namespace InitialFramework.Collections.WeakReference
         /// </summary>
         public bool TryGetTarget(TKey key, out TValue target)
         {
-            if (Examine(key))
+            if (Examine(key) && base[key].TryGetTarget(out TValue t))
             {
-                target = base[key].GetTarget();
+                target = t;
                 return true;
             }
 

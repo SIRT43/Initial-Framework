@@ -23,7 +23,7 @@ namespace InitialFramework.Reflection
         /// </summary>
         bool VerifyMapping(Type container, Type instance);
 
-        bool Map(object container, object instance);
+        bool Map(object container, object instance, out object result);
     }
 
     /// <summary>  
@@ -50,8 +50,9 @@ namespace InitialFramework.Reflection
         public virtual bool VerifyMapping(Type container, Type instance) => Mapping.VerifyMapping(container, instance);
 
 
-        public virtual bool Map(object container, object instance)
+        public virtual bool Map(object container, object instance, out object result)
         {
+            result = instance;
             this.container = container;
             this.instance = instance;
 
@@ -67,6 +68,7 @@ namespace InitialFramework.Reflection
 
             Traverse(mapPairs);
 
+            result = instance;
             this.container = null;
             this.instance = null;
 

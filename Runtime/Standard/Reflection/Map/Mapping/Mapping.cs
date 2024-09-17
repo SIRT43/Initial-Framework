@@ -68,19 +68,22 @@ namespace InitialFramework.Reflection
         /// <summary>  
         /// 将容器的变量映射到目标对象。  
         /// </summary>
-        public static void MapVariables(object container, object instance)
+        public static void MapVariables(object container, object instance, out object result)
         {
             VariableMapper mapper = new();
-            mapper.Map(container, instance);
+            mapper.Map(container, instance, out object resu);
+            result = resu;
         }
 
         /// <summary>  
         /// 将目标对象映射到容器的变量。  
         /// </summary>
-        public static void ReverseMapVariables(object container, object instance)
+        public static void ReverseMapVariables(object container, object instance, out object result)
         {
             ReverseVariableMapper mapper = new();
-            mapper.Map(container, instance);
+
+            mapper.Map(container, instance, out object resu);
+            result = resu;
         }
 
 

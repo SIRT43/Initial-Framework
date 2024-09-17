@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace InitialFramework.Classifying
 {
     /// <summary>    
@@ -12,19 +14,19 @@ namespace InitialFramework.Classifying
     /// <typeparam name="TValue">要分类的值的类型。</typeparam>
     public class FilterableClassifier<TKey, TValue> : Classifier<TKey, TValue>, IFilterable<TKey, TValue>
     {
-        public event ValueFilter<TValue> ValueFilter;
+        public event ValueFilter<TKey, TValue> ValueFilter;
         public event KeyGenerator<TKey, TValue> KeyGenerator;
 
         /// <summary>
         /// 在此之前，您必须完善过滤器。
         /// </summary>
-        public FilterableClassifier(ValueFilter<TValue> valueFilter, KeyGenerator<TKey, TValue> keyGenerator)
+        public FilterableClassifier(ValueFilter<TKey, TValue> valueFilter, KeyGenerator<TKey, TValue> keyGenerator)
         {
             ValueFilter = valueFilter;
             KeyGenerator = keyGenerator;
         }
 
-        public override bool IsCanonical(TValue value) => ValueFilter != null && ValueFilter.Invoke(value);
-        public override TKey GenerateKey(TValue value) => KeyGenerator.Invoke(value);
+        public override bool IsCanonical(TValue value, Dictionary<TKey, List<TValue>> context) => ValueFilter != null && ValueFilter.Invoke(value, context);
+        public override TKey GenerateKey(TValue value, Dictionary<TKey, List<TValue>> context) => KeyGenerator.Invoke(value, context);
     }
 }

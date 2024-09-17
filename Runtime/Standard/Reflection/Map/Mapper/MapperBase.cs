@@ -25,21 +25,27 @@ namespace InitialFramework.Reflection
         bool Map(object container, object instance, out object result);
     }
 
+    public struct MappingPair
+    {
+        public object container;
+        public object instance;
+
+        public MappingPair(object container, object instance)
+        {
+            this.container = container;
+            this.instance = instance;
+        }
+    }
+
     /// <summary>  
     /// <see cref="MapperBase"/> 是所有映射器类的基类，提供了映射操作的基本框架和属性。  
     /// </summary>
-    public abstract class MapperBase : Traverser<KeyValuePair<VariableInfo, VariableInfo>>, IMapper
+    public abstract class MapperBase : Traverser<KeyValuePair<VariableInfo, VariableInfo>, MappingPair>, IMapper
     {
         public virtual BindingFlags BindingAttr { get; }
 
-        private object container;
-        private object instance;
-
-
-
         protected MapperBase(BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) : base(FlowControl.Continue)
             => BindingAttr = bindingAttr;
-
 
 
         public virtual bool IsMappable(MemberInfo memberInfo) => Mapping.IsMappable(memberInfo);
@@ -51,9 +57,7 @@ namespace InitialFramework.Reflection
 
         public virtual bool Map(object container, object instance, out object result)
         {
-            result = instance;
-            this.container = container;
-            this.instance = instance;
+            result = null;
 
             Type containerType = container.GetType();
             Type instanceType = instance.GetType();
@@ -65,20 +69,18 @@ namespace InitialFramework.Reflection
             foreach (VariableInfo containerVariable in containerType.GetVariables(BindingAttr))
                 mapPairs.Add(containerVariable, instanceType.GetVariable(containerVariable.Name, containerVariable.ValueType, BindingAttr));
 
-            Traverse(mapPairs);
+            Traverse(mapPairs, new(container, instance));
 
             result = instance;
-            this.container = null;
-            this.instance = null;
-
             return true;
         }
 
-        public override bool IsCanonical(KeyValuePair<VariableInfo, VariableInfo> value) =>
+        public override bool IsCanonical(KeyValuePair<VariableInfo, VariableInfo> value, MappingPair context) =>
             value.Value != null ? IsMappable(value.Key) && IsMappable(value.Value) :
             throw new MissingFieldException($"The member '{value.Key.Name}' could not be found in the instance.");
 
-        protected override void OnTraverse(KeyValuePair<VariableInfo, VariableInfo> value) => TryMap(container, instance, value.Value, value.Key);
+        protected override void OnTraverse(KeyValuePair<VariableInfo, VariableInfo> value, MappingPair context) =>
+            TryMap(context.container, context.instance, value.Value, value.Key);
 
         protected abstract void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable);
     }

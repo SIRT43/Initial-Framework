@@ -89,7 +89,7 @@ namespace InitialFramework.Reflection
         /// </summary>
         public static Dictionary<string, List<T>> ClassifyWithUniqueName<T>(T[] values)
         {
-            FilterableClassifier<string, T> classifier = new((value, context) => true, (value, context) => GetUniqueName(value.GetType()));
+            FilterableMultiClassifier<string, T> classifier = new((value, context) => GetUniqueName(value.GetType()));
 
             return classifier.Classify(values);
         }

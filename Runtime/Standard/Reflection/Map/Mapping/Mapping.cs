@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using InitialFramework.Classifying;
 
 namespace InitialFramework.Reflection
 {
@@ -64,47 +65,17 @@ namespace InitialFramework.Reflection
 
 
 
-        /// <summary>  
-        /// 将容器的变量映射到目标对象。  
-        /// </summary>
-        public static void MapVariables(object container, object instance, out object result)
-        {
-            VariableMapper mapper = new();
-            mapper.Map(container, instance, out object resu);
-            result = resu;
-        }
-
-        /// <summary>  
-        /// 将目标对象映射到容器的变量。  
-        /// </summary>
-        public static void ReverseMapVariables(object container, object instance, out object result)
-        {
-            ReverseVariableMapper mapper = new();
-
-            mapper.Map(container, instance, out object resu);
-            result = resu;
-        }
-
-
-
         /// <summary>
         /// 将容器类型按 <see cref="MapContainerAttribute.TargetType"/> 的 UniqueName 分类。
         /// </summary>
         public static Dictionary<string, Type> ClassifyMapTargetType(bool inherit = false, params Type[] containerTypes)
         {
-            Dictionary<string, Type> classify = new();
-
-            foreach (Type container in containerTypes)
-            {
-                string uniqueName = GetMapTargetType(container, inherit) is Type targetType ?
+            FilterableMonoClassifier<string, Type> classifier = new((value, context) => GetMapTargetType(value, inherit) is Type targetType ?
                      targetType.GetUniqueName()
                      :
-                     throw new ArgumentException("Misclassified! Cannot classify a type that isn't a container or a container that has an empty mapping target.", nameof(container));
+                     throw new ArgumentException("Misclassified! Cannot classify a type that isn't a container or a container that has an empty mapping target.", nameof(value)));
 
-                classify.Add(uniqueName, container);
-            }
-
-            return classify;
+            return classifier.Classify(containerTypes);
         }
     }
 }

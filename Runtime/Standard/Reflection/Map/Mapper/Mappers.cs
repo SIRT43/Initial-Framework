@@ -11,6 +11,18 @@ namespace InitialFramework.Reflection
 
         protected override void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
             instanceVariable.SetValue(instance, containerVariable.GetValue(container));
+
+
+
+        /// <summary>  
+        /// 将容器的变量映射到目标对象。  
+        /// </summary>
+        public static void MapVariables(object container, object instance, out object result)
+        {
+            VariableMapper mapper = new();
+            mapper.Map(container, instance, out object resu);
+            result = resu;
+        }
     }
 
     /// <summary>  
@@ -22,5 +34,19 @@ namespace InitialFramework.Reflection
 
         protected override void TryMap(object container, object instance, VariableInfo containerVariable, VariableInfo instanceVariable) =>
             containerVariable.SetValue(container, instanceVariable.GetValue(instance));
+
+
+
+        /// <summary>  
+        /// 将目标对象映射到容器的变量。  
+        /// </summary>
+        public static void ReverseMapVariables(object container, object instance, out object result)
+        {
+            ReverseVariableMapper mapper = new();
+
+            mapper.Map(container, instance, out object resu);
+            result = resu;
+        }
+
     }
 }

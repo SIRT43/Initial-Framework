@@ -1,4 +1,3 @@
-using InitialFramework.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,35 +18,47 @@ namespace InitialFramework
         /// <summary>
         /// 全局组件，它用于储存全局唯一的组件。
         /// </summary>
-        private static readonly Dictionary<string, UniqueBehaviour> globalComponents = new();
+        private static readonly List<UniqueBehaviour> globalComponents = new();
         /// <summary>
         /// 局部组件，它用于储存场景唯一的组件。
         /// </summary>
-        private static readonly Dictionary<string, UniqueBehaviour> localCompoents = new();
+        private static readonly Dictionary<int, List<UniqueBehaviour>> localCompoents = new();
 
 
 
-        public static bool HasUnique(UniqueBehaviour unique, int buildIndex = -1)
+        public static bool HasUnique(UniqueBehaviour unique, int buildIndex)
         {
-            string uniqueName = unique.GetType().GetUniqueName();
+            if (buildIndex == -1) return globalComponents.Contains(unique);
+            else if (localCompoents.TryGetValue(buildIndex, out List<UniqueBehaviour> uniques)) return uniques.Contains(unique);
 
-            return buildIndex == -1 ? globalComponents.ContainsKey(uniqueName) : localCompoents.ContainsKey(uniqueName);
+            return false;
         }
 
 
 
-        private static bool AddUnique(UniqueBehaviour unique, int buildIndex = -1)
+        private static bool AddUnique(UniqueBehaviour unique, int buildIndex)
         {
-            string uniqueName = unique.GetType().GetUniqueName();
+            if (HasUnique(unique, buildIndex)) return false;
 
-            return buildIndex == -1 ? globalComponents.TryAdd(uniqueName, unique) : localCompoents.TryAdd(uniqueName, unique);
+            if (buildIndex == -1) globalComponents.Add(unique);
+            else
+            {
+                if (!localCompoents.ContainsKey(buildIndex)) localCompoents.Add(buildIndex, new() { unique });
+                else localCompoents[buildIndex].Add(unique);
+            }
+
+            return true;
         }
 
-        private static bool RemoveUnique(UniqueBehaviour unique, int buildIndex = -1)
-        {
-            string uniqueName = unique.GetType().GetUniqueName();
 
-            return buildIndex == -1 ? globalComponents.Remove(uniqueName) : localCompoents.Remove(uniqueName);
+        private static bool RemoveUnique(UniqueBehaviour unique, int buildIndex)
+        {
+            if (!HasUnique(unique, buildIndex)) return false;
+
+            if (buildIndex == -1) return globalComponents.Remove(unique);
+            else if (localCompoents.TryGetValue(buildIndex, out List<UniqueBehaviour> uniques)) return uniques.Remove(unique);
+
+            return false;
         }
 
 
@@ -62,12 +73,13 @@ namespace InitialFramework
 
         public int BuildIndex { get => UniqueInAllScenes ? -1 : SceneManager.GetActiveScene().buildIndex; }
 
+
         protected virtual void Awake()
         {
             if (!AddUnique(this, BuildIndex))
             {
                 enabled = false;
-                Debug.LogWarning($@"{GetType().GetUniqueName()} is trying to instantiate repeatedly, but it's derived from UniqueBehaviour.", this);
+                Debug.LogWarning($@"{GetType().Name} is trying to instantiate repeatedly, but it's derived from UniqueBehaviour.", this);
 
                 return;
             }
@@ -81,10 +93,7 @@ namespace InitialFramework
         protected virtual void OnValidate()
         {
             if (!DestroyOnLoad && !UniqueInAllScenes)
-            {
-                uniqueInAllScenes = true;
-                Debug.LogWarning("If this GameObject is dontDestroyOnLoad, then it must be unique in all scenes.", gameObject);
-            }
+                Debug.LogWarning("If this GameObject is set to DontDestroyOnLoad, it is recommended to set UniqueInAllScenes to true to ensure uniqueness across scenes.", gameObject);
         }
 #endif
     }

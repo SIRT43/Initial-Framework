@@ -103,7 +103,7 @@ namespace InitialFramework
     /// 使用 Flags 属性表示可以通过位运算组合多个 <see cref="Period"/> 枚举值。  
     /// </summary>  
     [Flags]
-    public enum PeriodFlags : int
+    public enum PeriodFlags : byte
     {
         /// <summary>  
         /// 对象或组件在唤醒后立即调用的方法。  
@@ -120,10 +120,10 @@ namespace InitialFramework
         /// <summary>  
         /// 以固定的时间间隔调用，通常用于物理计算。  
         /// </summary>  
-        FixedUpdate = 16,
+        FixedUpdate = 8,
         /// <summary>  
         /// 在所有 Update 方法调用之后调用，用于最后的游戏状态更新。  
         /// </summary>  
-        LateUpdate = 256
+        LateUpdate = 16
     }
 }

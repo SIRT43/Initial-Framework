@@ -39,6 +39,8 @@ namespace InitialFramework.ObjectListener
         /// </summary>
         protected override void OnExitListened(Rigidbody rigidbody, Collider collider)
         {
+            if (!StayingComponents.ContainsKey(rigidbody)) return;
+
             OnListened(rigidbody, StayingComponents[rigidbody]);
             OnExitListened(rigidbody, StayingComponents[rigidbody]);
 
@@ -52,6 +54,8 @@ namespace InitialFramework.ObjectListener
         /// </summary>
         protected override void OnStayListened(Rigidbody rigidbody, Collider collider)
         {
+            if (!StayingComponents.ContainsKey(rigidbody)) return;
+
             OnListened(rigidbody, StayingComponents[rigidbody]);
             OnStayListened(rigidbody, StayingComponents[rigidbody]);
         }

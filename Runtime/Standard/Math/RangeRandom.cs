@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace InitialFramework
 {
+    public interface IRandomable<T>
+    {
+        T Range();
+    }
+
     [Serializable]
     public class IntRandom : IntRange, IRandomable<int>
     {

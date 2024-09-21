@@ -9,6 +9,7 @@ namespace InitialFramework.Traverse
         /// </summary>
         void Traverse(IEnumerable<TValue> values, TContext context);
     }
+
     public interface ITraverser<TValue> : ITraverser<TValue, object>
     {
         /// <summary>
@@ -16,6 +17,7 @@ namespace InitialFramework.Traverse
         /// </summary>
         void Traverse(IEnumerable<TValue> values);
     }
+
 
     public interface IFlowTraverser<TValue, TContext> : ITraverser<TValue, TContext>
     {
@@ -31,6 +33,7 @@ namespace InitialFramework.Traverse
         /// </summary>
         bool IsCanonical(TValue value, TContext context);
     }
+
     public interface IFlowTraverser<TValue> : IFlowTraverser<TValue, object>
     {
         /// <summary>

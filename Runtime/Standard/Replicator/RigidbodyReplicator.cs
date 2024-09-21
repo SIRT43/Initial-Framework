@@ -5,7 +5,7 @@ namespace InitialFramework.Replicator
     [AddComponentMenu("Initial Framework/Replicator/Rigidbody Replicator")]
     public class RigidbodyReplicator : RequireReplicator<Rigidbody>
     {
-        //为 Rigidbody 添加初始力，固定或随机的
+        // 为 Rigidbody 添加初始力，固定或随机的
         public bool applyInitialForce = false;
         public RandomMode forceRandomMode = RandomMode.Fixed;
 
@@ -13,7 +13,7 @@ namespace InitialFramework.Replicator
         public Vector3Random randomForce;
 
 
-        //为 Rigidbody 添加初始速度，固定或随机的
+        // 为 Rigidbody 添加初始速度，固定或随机的
         public bool applyInitialVelocity = false;
         public RandomMode velocityRandomMode = RandomMode.Fixed;
 
@@ -21,7 +21,7 @@ namespace InitialFramework.Replicator
         public Vector3Random randomVelocity;
 
 
-        //为 Rigidbody 添加初始角速度，固定或随机的
+        // 为 Rigidbody 添加初始角速度，固定或随机的
         public bool applyInitialAngularVelocity = false;
         public RandomMode angularVelocityRandomMode = RandomMode.Fixed;
 

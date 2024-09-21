@@ -16,7 +16,7 @@ namespace InitialFramework
 
 
         /// <summary>  
-        /// 向指定方向投射探针，探测不发生碰撞的最远位置及其距离（位置是探针的圆心，距离是位置到原点）。  
+        /// 向指定方向投射探针，探测不发生碰撞的最远位置及其距离。  
         ///   
         /// <para>
         /// 另请参阅 <seealso cref="Physics.SphereCast"/> 和 <seealso cref="Physics.CheckSphere"/>。
@@ -31,10 +31,7 @@ namespace InitialFramework
                 return new(probe, maxDistance);
 
             Vector3 original = probe.GetPosition(hitInfo.distance * inference);
-
             float singleDistance = maxDistance / (density * DENSITY_COMPENSATION_FACTOR / probe.radius);
-
-            Debug.Log($"{singleDistance}, {singleDistance}");
 
             Vector3 noCollision = FindNoCollisionPosition(original, probe.direction, probe.radius, singleDistance, maxDistance, targetLayer);
 
@@ -116,8 +113,6 @@ namespace InitialFramework
                 if (!Physics.CheckSphere(testPosition, radius, targetLayer)) noCollision = testPosition;
                 else break;
             }
-
-            Debug.DrawLine(original, noCollision, Color.red);
 
             return noCollision;
         }

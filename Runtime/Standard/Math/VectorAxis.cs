@@ -44,7 +44,7 @@ namespace InitialFramework
         x = 1,
         y = 2,
         z = 4,
-        w = 16
+        w = 8
     }
 
     public enum QuaternionAxis : byte
@@ -61,6 +61,6 @@ namespace InitialFramework
         w = 1,
         x = 2,
         y = 4,
-        z = 16
+        z = 8
     }
 }

@@ -1,6 +1,6 @@
 namespace InitialFramework
 {
-    public enum VariableType
+    public enum VariableType : byte
     {
         Field,
         Property

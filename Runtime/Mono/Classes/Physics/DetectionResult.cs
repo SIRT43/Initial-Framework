@@ -25,9 +25,7 @@ namespace InitialFramework
 
         public DetectionResult(Vector3 original, Vector3 direction, float distance)
         {
-            Vector3 maxPosition = IFMath.MoveTo(original, direction, distance);
-
-            position = maxPosition;
+            position = IFMath.MoveTo(original, direction, distance);
             this.distance = distance;
         }
 

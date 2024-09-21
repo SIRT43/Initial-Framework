@@ -40,11 +40,10 @@ namespace InitialFramework.IO
         public override string BasePath { get => basePath; set => basePath = value; }
         public override string Name { get => name; set => name = value; }
 
-        public StandardPath(string basePath, string name)
-        {
-            BasePath = basePath;
-            Name = name;
-        }
+
+
+        public StandardPath(string fullPath) : base(fullPath) { }
+        public StandardPath(string basePath, string name) : base(basePath, name) { }
     }
 
     /// <summary>

@@ -103,5 +103,13 @@ namespace InitialFramework.IO
             content = null;
             return false;
         }
+
+
+
+        protected FileBase(string basePath, string name) : base(basePath, name) { }
+        protected FileBase(string fullPath) : base(fullPath) { }
+        protected FileBase() : base() { }
+
+        protected FileBase(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) : this(basePath, $"{fileName}.{extension}") { }
     }
 }

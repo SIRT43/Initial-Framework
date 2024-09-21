@@ -50,5 +50,11 @@ namespace InitialFramework.IO
 
             return true;
         }
+
+
+
+        protected DirectoryBase(string basePath, string name) : base(basePath, name) { }
+        protected DirectoryBase(string fullPath) : base(fullPath) { }
+        protected DirectoryBase() : base() { }
     }
 }

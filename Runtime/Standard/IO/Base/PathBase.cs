@@ -55,6 +55,17 @@ namespace InitialFramework.IO
         }
 
 
+
+        protected PathBase(string basePath, string name)
+        {
+            BasePath = basePath;
+            Name = name;
+        }
+        protected PathBase(string fullPath) => FullPath = fullPath;
+        protected PathBase() { }
+
+
+
         public abstract bool Exists();
 
         public abstract bool Create();

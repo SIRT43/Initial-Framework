@@ -23,12 +23,10 @@ namespace InitialFramework.IO
             set => extension = Enum.TryParse(value, out FilenameExtension result) ? result : FilenameExtension.infr;
         }
 
-        public StandardFile(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr)
-        {
-            BasePath = basePath;
-            FileName = fileName;
-            Extension = extension.ToString();
-        }
+
+        public StandardFile(string fullPath) : base(fullPath) { }
+        public StandardFile(string basePath, string name) : base(basePath, name) { }
+        public StandardFile(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) : base(basePath, fileName, extension) { }
     }
 
     /// <summary>
@@ -42,15 +40,8 @@ namespace InitialFramework.IO
 
         public override string BasePath => Path.Combine(unityPath, base.BasePath);
 
-        public UnityFile(UnityPath unityPath, string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) :
-            base(basePath, fileName, extension) => this.unityPath = unityPath;
-
-        public UnityFile(UnityPathType unityPath, string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) :
-            this(new UnityPath(unityPath), basePath, fileName, extension)
-        { }
-
-        public UnityFile(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) :
-            this(UnityPathType.persistentDataPath, basePath, fileName, extension)
-        { }
+        public UnityFile(UnityPath unityPath, string fullPath) : base(fullPath) => this.unityPath = unityPath;
+        public UnityFile(UnityPath unityPath, string basePath, string name) : base(basePath, name) => this.unityPath = unityPath;
+        public UnityFile(UnityPath unityPath, string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) : base(basePath, fileName, extension) => this.unityPath = unityPath;
     }
 }

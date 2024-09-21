@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using UnityEngine;
 
 namespace InitialFramework.IO
@@ -37,13 +36,14 @@ namespace InitialFramework.IO
         [SerializeField] private string basePath;
         [SerializeField] private string name;
 
-        public override string BasePath { get => basePath; set => basePath = value; }
-        public override string Name { get => name; set => name = value; }
+        public override string BasePath => basePath;
+        public override string Name => name;
 
-
-
-        public StandardPath(string fullPath) : base(fullPath) { }
-        public StandardPath(string basePath, string name) : base(basePath, name) { }
+        public StandardPath(string basePath, string name)
+        {
+            this.basePath = basePath;
+            this.name = name;
+        }
     }
 
     /// <summary>
@@ -54,12 +54,7 @@ namespace InitialFramework.IO
     {
         public UnityPathType type;
 
-        /// <summary>
-        /// 您无法进行赋值操作。
-        /// </summary>
-        public override string FullPath
-        {
-            get => type switch
+        public override string FullPath => type switch
             {
                 UnityPathType.persistentDataPath => Application.persistentDataPath,
                 UnityPathType.consoleLogPath => Application.consoleLogPath,
@@ -68,17 +63,15 @@ namespace InitialFramework.IO
                 UnityPathType.temporaryCachePath => Application.temporaryCachePath,
                 _ => Application.persistentDataPath,
             };
-            set => throw new InvalidOperationException("You can't modify the Unity path.");
-        }
 
         /// <summary>
-        /// 您无法进行赋值操作。
+        /// 本属性永远返回 null。
         /// </summary>
-        public override string BasePath { get => Path.GetDirectoryName(FullPath); set => throw new InvalidOperationException("You can't modify the Unity path."); }
+        public override string BasePath => null;
         /// <summary>
-        /// 您无法进行赋值操作。
+        /// 本属性永远返回 null。
         /// </summary>
-        public override string Name { get => GetPathName(FullPath); set => throw new InvalidOperationException("You can't modify the Unity path."); }
+        public override string Name => null;
 
         /// <summary>
         /// 本方法永远返回 true。
@@ -92,10 +85,6 @@ namespace InitialFramework.IO
         /// 您无法进行此操作。
         /// </summary>
         public override bool Delete() => throw new InvalidOperationException("You can't modify the Unity path.");
-        /// <summary>
-        /// 您无法进行此操作。
-        /// </summary>
-        public override bool Move(string newBasePath) => throw new InvalidOperationException("You can't modify the Unity path.");
 
         public UnityPath(UnityPathType type) => this.type = type;
     }

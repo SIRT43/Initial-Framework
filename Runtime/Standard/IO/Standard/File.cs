@@ -14,19 +14,17 @@ namespace InitialFramework.IO
         [SerializeField] private string fileName;
         [SerializeField] private FilenameExtension extension;
 
-        public override string BasePath { get => basePath; set => basePath = value; }
-        public override string FileName { get => fileName; set => fileName = value; }
+        public override string BasePath => basePath;
+        public override string FileName => fileName;
 
-        public override string Extension
+        public override string Extension => extension.ToString();
+
+        public StandardFile(string basePath, string fileName, FilenameExtension extension)
         {
-            get => extension.ToString();
-            set => extension = Enum.TryParse(value, out FilenameExtension result) ? result : FilenameExtension.infr;
+            this.basePath = basePath;
+            this.fileName = fileName;
+            this.extension = extension;
         }
-
-
-        public StandardFile(string fullPath) : base(fullPath) { }
-        public StandardFile(string basePath, string name) : base(basePath, name) { }
-        public StandardFile(string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) : base(basePath, fileName, extension) { }
     }
 
     /// <summary>
@@ -40,8 +38,7 @@ namespace InitialFramework.IO
 
         public override string BasePath => Path.Combine(unityPath, base.BasePath);
 
-        public UnityFile(UnityPath unityPath, string fullPath) : base(fullPath) => this.unityPath = unityPath;
-        public UnityFile(UnityPath unityPath, string basePath, string name) : base(basePath, name) => this.unityPath = unityPath;
-        public UnityFile(UnityPath unityPath, string basePath, string fileName, FilenameExtension extension = FilenameExtension.infr) : base(basePath, fileName, extension) => this.unityPath = unityPath;
+        public UnityFile(UnityPath unityPath, string basePath, string fileName, FilenameExtension extension) : base(basePath, fileName, extension) => this.unityPath = unityPath;
+        public UnityFile(UnityPathType unityPath, string basePath, string fileName, FilenameExtension extension) : this(new UnityPath(unityPath), basePath, fileName, extension) { }
     }
 }
